@@ -1,0 +1,180 @@
+/* body {
+  margin: 0;
+  font-family: "Cormorant Garamond", serif;
+  background-color: #f4f4f9;
+} */
+
+.header {
+  display: flex;
+  padding: 20px;
+  justify-content: space-between;
+  align-items: center;
+  background-image: linear-gradient(to right, #032B44, #226bca);
+  color: white;
+}
+
+.header .logo {
+  font-size: 1.8em;
+  font-family: "Italianno", cursive;
+}
+
+nav {
+  display: flex;
+  gap: 50px;
+  /* justify-content: space-between; */
+}
+
+.services {
+  flex: 1;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.services h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+  color: #8000ff;
+}
+
+.ServiceItems {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.ServiceItem {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 300px;
+  flex: 1;
+  text-align: left;
+}
+
+.ServiceItem h3 {
+  color: #8000ff;
+  margin-bottom: 10px;
+}
+
+.ServiceItem ul {
+  list-style-type: none;
+  padding: 0;
+  color: #555;
+}
+
+.ServiceItem ul li {
+  margin-bottom: 10px;
+}
+
+.ServiceItems img {
+  width: 100%;
+  height: 100%;
+  max-width: 300px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+footer {
+  background-color: #007bff;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+.navLinks a:hover {
+  color: #8000ff;
+}
+
+.navLinks {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.navLinks li a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.headerBtn {
+  background-color: #8000ff;
+  color: #fff;
+  padding: 10px 25px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.headerBtn a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.CallToAction,
+.testimonials {
+  margin: 40px 0;
+}
+
+.testimonialItems {
+  display: flex;
+  gap: 20px;
+}
+
+.TestimonialItem {
+  border: 1px solid #ccc;
+  padding: 20px;
+  flex: 1;
+}
+
+.CallToAction {
+  text-align: center;
+  background-color: #f8f9fa;
+  padding: 40px;
+  border-radius: 8px;
+}
+
+.CallToAction h2 {
+  color: #8000ff;
+}
+
+.testimonials h2 {
+  color: #8000ff;
+}
+
+.CallToAction .CtaBtn {
+  background-color: #8000ff;
+  color: #fff;
+  padding: 10px 25px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.CallToAction .CtaBtn a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.testimonials {
+  text-align: center;
+}
+
+.TestimonialItem {
+  background-color: #f1f1f1;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.stats {
+  display: flex;
+  flex-direction: column;
+}
+
+.stats h2 {
+  text-align: center;
+  color: #8000ff;
+  padding-bottom: 15px;
+}

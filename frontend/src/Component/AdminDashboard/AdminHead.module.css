@@ -1,0 +1,26 @@
+.adminHeader {
+    background: #444;
+    color: #fff;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .userInfo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .userInfo span {
+    margin-right: 10px;
+  }
+  
+  .userInfo button {
+    background: #ff5a5f;
+    border: none;
+    color: #fff;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  

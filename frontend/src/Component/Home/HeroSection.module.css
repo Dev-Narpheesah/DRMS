@@ -1,0 +1,75 @@
+.sectionHero {
+  display: flex;
+  height: 100vh; 
+  background-image: linear-gradient(to left, #ffd700, #edea53);
+  padding: 25px;
+}
+
+a {
+  color: #fff;
+}
+
+/* .sectionHero {
+  background-image: linear-gradient(to top, #15bc98, #fff);
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  text-align: center;
+} */
+
+/* .sectionHero h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+} */
+
+.textHalf, .imageHalf {
+  flex: 1; /* Take up equal space */
+  display: flex;
+}
+
+.textHalf {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-items: center;
+  /* justify-content: center; */
+}
+.textHalf  h2 {
+  font-size: 50px;
+  font-family: "Cormorant Garamond", serif;
+  margin-top: 1px;
+  color: #8000ff;
+}
+
+.textHalf span {
+  font-family: "Italianno", cursive;
+  font-size: 80px;
+  color: #8000ff;
+}
+
+.textHalf p {
+font-size: 27px;
+font-family: "Cormorant Garamond", serif;
+width: 90%;
+/* margin-left: 50px; */
+margin-top: 1px;
+}
+
+img {
+  max-width: 100%;
+  max-height: 90%;
+  object-fit: cover;
+}
+
+.view {
+  /* width: 20%; */
+  background-color: #8000ff;
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  padding: 15px 25px;
+  cursor: pointer;
+}
