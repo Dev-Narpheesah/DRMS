@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const User = require('./models/UserModel');
+const UserInfo = require('./models/UserInfoModel');
 const Task = require('./models/TaskModel');
 const Message = require('./models/MessageModel');
 
@@ -17,11 +17,11 @@ mongoose.connect(process.env.MONGO_URI, {
 });
 
 const populateData = async () => {
-    await User.deleteMany({});
+    await UserInfo.deleteMany({});
     await Task.deleteMany({});
     await Message.deleteMany({});
 
-    const user = new User({ name: 'John Doe', email: 'john@example.com', image: 'https://via.placeholder.com/150' });
+    const user = new UserInfo({ name: 'John Doe', email: 'john@example.com', image: 'https://via.placeholder.com/150' });
     await user.save();
 
     const tasks = [

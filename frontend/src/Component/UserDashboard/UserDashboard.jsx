@@ -37,6 +37,7 @@ const UserDashboard = () => {
             <header className={styles.header}>
                 <h1>Disaster Relief Management System</h1>
                 <nav>
+                    user
                     <ul>
                         <li><a href="#overview">Overview</a></li>
                         <li><a href="#tasks">Tasks</a></li>
@@ -48,6 +49,7 @@ const UserDashboard = () => {
 
             <main className={styles.main}>
                 <section id="overview">
+                    
                     <h2>Overview</h2>
                     <p>Status: {overviewData.status}</p>
                     <p>Affected Areas: {overviewData.affectedAreas}</p>
@@ -85,7 +87,7 @@ const UserDashboard = () => {
                     <img src={profile.image} alt="User" className={styles.profileImage} />
                     <p>Name: {profile.name}</p>
                     <p>Email: {profile.email}</p>
-                    <button onClick={() => alert('Logged out!')}>Logout</button>
+                    <button onClick={() => alert('Logged out!👇')}>Logout</button>
                 </section>
 
                 <section id="user-count">

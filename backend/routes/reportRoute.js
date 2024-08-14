@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
-const Data = require('../models/DataModel'); // Ensure the path to DataModel is correct
+const UserInfo = require('../models/UserInfoModel'); // Ensure the path to DataModel is correct
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -11,14 +11,14 @@ router.post('/report', async (req, res) => {
     
     try {
         // Check if the message already exists
-        let data = await Data.findOne({ message });
+        let data = await UserInfo.findOne({ message });
 
         if (data) {
             return res.status(200).json({ msg: 'Data already submitted' });
         }
 
         // Create a new Data instance
-        data = new Data({ name, email, message });
+        data = new UserInfo({ name, email, message });
 
         // Save the data to the database
         await data.save();
@@ -32,7 +32,7 @@ router.post('/report', async (req, res) => {
 
 router.get("/user-count", async (req, res) => {
     try {
-        const userCount = await Data.countDocuments();
+        const userCount = await UserInfo.countDocuments();
         return res.status(200).json({ userCount });
     } catch (error) {
         console.error(error);
