@@ -2,10 +2,11 @@ import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Register.module.css";
 import {Link} from 'react-router-dom'
-import { AuthContext } from '../Context/AuthContext';
-// import Axios from 'axios'
+import { AuthContext } from '../../../Context/AuthContext';
+
 
 const Register = () => {
+ 
 
   const navigate = useNavigate();
   const { signUp } = useContext(AuthContext);
@@ -16,69 +17,6 @@ const Register = () => {
   const [isLoading, setIsLoading] = useState(false)
 
 
-//   const [error, setError] = useState(null)
-//   const[form, setForm] = useState({
-//    username: "",
-//   //  lastName: "",
-//    email: "",
-//    password: "",
-//    confirmPassword: "",
-//   //  isSubmitting: null,
-//   })
-// console.log(form)
-  // const [passwordMatch,setPasswordMatch] = useState(true)
-//   useEffect(()=> {
-// setPasswordMatch(form.password === form.confirmPassword
-// || form.confirmPassword ===''
-// );
-//   })
-
-  //  const handleChange = (e) => {
-  //   const{name, value} = e.target;
-  //   setForm({
-  //     ...form,
-  //     [name]: value,
-      
-  //   })
-  //  }
-//   const handleChange = (e) => {
-//     setForm({
-//       ...form,
-//       [e.target.id]:e.target.value
-//     })
-//     }
-
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-    
-//     try {
-//       setIsLoading(true)
-//       const response = await fetch('http://localhost:4500/api/auth/signup', {
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//         body: form
-//       })
-
-// const data  = await response.json()
-// if (data.success === false) {
-//   console.log(data)
-//   setError("could not signup",error.message)
-//   setIsLoading(false)
-//   return;
-// }
-// setIsLoading(false)
-// setError(null)
-// navigate('/signin')
-
-//      } catch (err) {
-//        console.error(err);
-//       setIsLoading(false)
-//     }
-//   };
-
 const handleSubmit = async (e) => {
   e.preventDefault();
   try {
@@ -87,7 +25,7 @@ const handleSubmit = async (e) => {
     console.error(err);
   }
   setIsLoading(false)
-  navigate("/signin")
+  navigate("/card")
 };
 
   return (

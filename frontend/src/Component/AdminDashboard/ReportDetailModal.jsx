@@ -3,7 +3,7 @@ import  styles from './ReportDetailModal.module.css';
 
 const ReportDetailModal = ({ report, onClose }) => {
   return (
-    <div className={styles.modal-overlay}>
+    <div className={styles.modalOverlay}>
       <div className={styles.modal}>
         <h3>{report.title}</h3>
         <p><strong>Date:</strong> {report.date}</p>

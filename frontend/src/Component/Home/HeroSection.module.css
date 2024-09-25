@@ -1,75 +1,67 @@
-.sectionHero {
-  display: flex;
-  height: 100vh; 
-  background-image: linear-gradient(to left, #ffd700, #edea53);
-  padding: 25px;
-}
 
-a {
-  color: #fff;
-}
-
-/* .sectionHero {
-  background-image: linear-gradient(to top, #15bc98, #fff);
-  height: 300px;
+.hero {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
   display: flex;
+  align-items: center;
   justify-content: center;
-  align-items: center;
-  color: #fff;
+  color: white;
   text-align: center;
-} */
+  border-radius: 15px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+  transition: background-image 1s ease-in-out;
+}
 
-/* .sectionHero h1 {
-  font-size: 48px;
+.heroOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  padding: 20px;
+}
+
+.heroTitle {
+  font-size: 3em;
+  font-weight: bold;
   margin-bottom: 20px;
-} */
-
-.textHalf, .imageHalf {
-  flex: 1; /* Take up equal space */
-  display: flex;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
 }
 
-.textHalf {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  justify-items: center;
-  /* justify-content: center; */
-}
-.textHalf  h2 {
-  font-size: 50px;
-  font-family: "Cormorant Garamond", serif;
-  margin-top: 1px;
-  color: #8000ff;
+.heroSubtitle {
+  font-size: 1.5em;
+  margin-bottom: 40px;
+  color: #f7f7f7;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
 }
 
-.textHalf span {
-  font-family: "Italianno", cursive;
-  font-size: 80px;
-  color: #8000ff;
-}
-
-.textHalf p {
-font-size: 27px;
-font-family: "Cormorant Garamond", serif;
-width: 90%;
-/* margin-left: 50px; */
-margin-top: 1px;
-}
-
-img {
-  max-width: 100%;
-  max-height: 90%;
-  object-fit: cover;
-}
-
-.view {
-  /* width: 20%; */
-  background-color: #8000ff;
+.heroButton {
+  background-color: #96E1DC;
+  color: #141315;
+  padding: 15px 30px;
   border: none;
   border-radius: 10px;
-  color: #fff;
-  padding: 15px 25px;
+  font-size: 1.2em;
+  font-weight: bold;
   cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  text-decoration: none;
 }
+
+.heroButton:hover {
+  background-color: #6fd5ce;
+  color: #141315;
+  transform: scale(1.05);
+}
+

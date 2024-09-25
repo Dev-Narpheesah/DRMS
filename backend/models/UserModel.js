@@ -1,12 +1,24 @@
 const mongoose = require("mongoose");
 
+const stakeholderSchema = new mongoose.Schema({
+  stakeholderName: {
+    type: String,
+    require: true,
+  },
+  stakeholderPhone: {
+    type: String,
+    require: true,
+  },
+  stakeholderPosition: {
+    type: String,
+    require: true,
+    enum: ["leader", "volunteer", "donor", "coordinator", "other"],
+  },
+});
+
 const UserSchema = new mongoose.Schema(
   {
-    _id: {
-      type: String,
-      unique: true,
-      required: true,
-    },
+  
     username: {
       type: String,
       required: true,
@@ -21,10 +33,26 @@ const UserSchema = new mongoose.Schema(
       require: true,
       enum: ["Female", "Male", "Others"],
     },
-    nationality: {
+    phone: {
       type: String,
-      require: true,
+      required: true,
     },
+    disasterType: {
+      type: String,
+      required: true,
+      enum: ["flood", "earthquake", "fire", "hurricane", "tornado", "other"],
+    },
+    image: { type: String, required: false },
+    stakeholder: stakeholderSchema,
+    location: {
+      type: String,
+      required: true,
+    },
+    report: {
+      type: String,
+      required: true,
+    },
+
     password: {
       type: String,
       required: true,
@@ -32,9 +60,8 @@ const UserSchema = new mongoose.Schema(
     role: {
       type: String,
       enum: ["user"],
-      default: "user"
-  },
-    image: { type: String, required: false },
+      default: "user",
+    },
   },
   {
     timestamps: true,
@@ -42,43 +69,3 @@ const UserSchema = new mongoose.Schema(
 );
 
 module.exports = mongoose.model("User", UserSchema);
-
-// const mongoose = require("mongoose");
-
-// const userSchema = new mongoose.Schema({
-//     fullname: {
-//         type: String,
-//         required: true,
-//     },
-//     email: {
-//         type: String,
-//         required: true,
-//         unique: true,
-//     },
-//     password: {
-//         type: String,
-//         required: true,
-//         // match: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-//     }
-// })
-
-// const User = mongoose.model("User", userSchema);
-// module.exports = User;
-// const bcrypt = require("bcryptjs");
-
-// const mongoose = require("mongoose");
-
-// const userSchema = new mongoose.Schema(
-//   {
-//    fullname: { type: String, required: true },
-//     email: { type: String, required: true, unique: true },
-//     password: { type: String, required: true },
-
-//   },
-//   {
-//     timestamps: true,
-//   }
-// );
-
-// const User = mongoose.model("User", userSchema);
-// module.exports = User;

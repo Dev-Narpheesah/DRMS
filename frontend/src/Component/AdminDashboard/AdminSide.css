@@ -30,14 +30,13 @@
     font-size: 16px;
   } */
   
-  .menu {
+  /* .menu {
     display: flex;
     flex-direction: column;
     padding: 20px;
   }
   
   .menu a {
-    /* color: #fff; */
     text-decoration: none;
     padding: 10px 0;
     margin: 5px 0;
@@ -48,7 +47,7 @@
     background: #444;
   }
   
-  /* Media query for small screens */
+
   @media (max-width: 768px) {
     .sidebar {
       width: 200px;
@@ -59,7 +58,7 @@
     }
   }
   
-  /* Media query for very small screens */
+ 
   @media (max-width: 480px) {
     .sidebar {
       width: 150px;
@@ -69,4 +68,73 @@
       right: -40px;
     }
   }
+   */
+
+   .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px;
+    background-color: #2c3e50;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease;
+    transform: translateX(-100%);
+    z-index: 1000;
+  }
+  
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  
+  .toggleButton {
+    position: absolute;
+    top: 20px;
+    right: -50px;
+    background-color: #34495e;
+    border: none;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+  }
+  
+  .toggleButton:hover {
+    background-color: #2c3e50;
+  }
+  
+  .icon {
+    font-size: 24px;
+  }
+  
+  .menu {
+    margin-top: 60px; /* Adjust based on the height of the toggle button */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .menuItem {
+    color: white;
+    text-decoration: none;
+    padding: 15px 20px;
+    margin: 10px 0;
+    width: 100%;
+    text-align: center;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .menuItem:hover {
+    background-color: #34495e;
+    transform: scale(1.05);
+  }
+  
+  .sidebar.open .menuItem {
+    padding: 15px 30px;
+  }
+
   

@@ -1,7 +1,7 @@
 import React, { useState,useContext } from "react";
 import styles from "./SignIn.module.css";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from '../Context/AuthContext';
+import { AuthContext } from '../../../Context/AuthContext';
 // import {useDispatch, useSelector} from 'react-redux'
 // import { signInStart, signInFailure, signInSuccess } from "../../app/userSlice";
 

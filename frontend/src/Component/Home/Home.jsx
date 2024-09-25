@@ -13,61 +13,53 @@ const Home = () => {
         </div>
         <nav>
           <ul className={styles.navLinks}>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/service">Services</Link></li>
-            <li><Link to="/about">About</Link></li>
-            <li><Link to="/contact">Contact</Link></li>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+
+            <li>
+              <Link to="/">Resources</Link>
+            </li>
+            <li>
+              <Link to="/about">About</Link>
+            </li>
+            <li>
+              <button className={styles.headerBtn}>
+                <Link to="/disForm" style={{color: "#141315"}}>Report Disaster</Link>
+              </button>
+            </li>
+
+            <li>
+              <button className={styles.headerBtn}>
+                <Link to="/card"  style={{color: "#141315"}}>View Disaster</Link>
+              </button>
+            </li>
           </ul>
-          <button className={styles.headerBtn}>
-            <Link to="/register">Sign Up</Link>
-          </button>
         </nav>
       </header>
 
       <main>
         <HeroSection />
 
-        <section className={styles.services}>
-          <h2>Our Services</h2>
-          <div className={styles.ServiceItems}>
-            <ServiceItem 
-              title="Features"
-              features={[
-                "Incident Reporting",
-                "Resource Management",
-                "Affected Individual Tracking",
-                "Volunteer Management"
-              ]}
-            />
-            <ServiceItem 
-              title="Benefits"
-              features={[
-                "Improved Impact",
-                "Efficient Response Coordination",
-                "Maximized Resource Allocation",
-                "Effective Disaster Relief Management"
-              ]}
-            />
-            <div className={styles.ServiceMap}>
-              <img src="map.jpeg" alt="Service Map" />
-            </div>
-          </div>
-        </section>
-
         <section className={styles.CallToAction}>
           <h2>Join Us in Making a Difference</h2>
-          <p>Become a part of our mission to provide effective disaster relief and support to those in need.</p>
-          <button className={styles.CtaBtn}><Link to="/register">Get Started</Link></button>
+          <p>
+            Become a part of our mission to provide effective disaster relief
+            and support to those in need.
+          </p>
+          <button className={styles.CtaBtn}>
+            <Link to="/register">Get Started</Link>
+          </button>
         </section>
 
         <section className={styles.testimonials}>
           <h2>What People Are Saying</h2>
           <div className={styles.testimonialItems}>
-            <Testimonial 
+            <Testimonial
               quote="This platform has transformed how we manage resources during crises."
               author="John Doe, Relief Coordinator"
             />
-            <Testimonial 
+            <Testimonial
               quote="A game-changer in disaster management!"
               author="Jane Smith, Volunteer"
             />
@@ -77,18 +69,9 @@ const Home = () => {
         <section className={styles.stats}>
           <h2>Our Impact</h2>
           <div className={styles.statsItems}>
-            <Stat 
-              number="1000+" 
-              text="Lives Impacted" 
-            />
-            <Stat 
-              number="500+" 
-              text="Resources Managed" 
-            />
-            <Stat 
-              number="200+" 
-              text="Volunteers Engaged" 
-            />
+            <Stat number="1000+" text="Lives Impacted" />
+            <Stat number="500+" text="Resources Managed" />
+            <Stat number="200+" text="Volunteers Engaged" />
           </div>
         </section>
       </main>
@@ -97,17 +80,6 @@ const Home = () => {
     </div>
   );
 };
-
-const ServiceItem = ({ title, features }) => (
-  <div className={styles.ServiceItem}>
-    <h3>{title}</h3>
-    <ul>
-      {features.map((feature, index) => (
-        <li key={index}>{feature}</li>
-      ))}
-    </ul>
-  </div>
-);
 
 const Testimonial = ({ quote, author }) => (
   <div className={styles.testimonialItem}>

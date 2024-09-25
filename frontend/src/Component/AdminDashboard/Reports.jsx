@@ -1,53 +1,76 @@
 // components/Report.js
-import React, { useState } from 'react';
-import axios from 'axios';
-import './Reports.module.css'
+import React, { useState } from "react";
+import axios from "axios";
+import "./Reports.module.css";
 
 const Report = () => {
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        message: ''
-    });
+//   const [formData, setFormData] = useState({
+//     username: "",
+//     email: "",
+//     message: "",
+//   });
 
-    const { name, email, message } = formData;
+//   const { username, email, message } = formData;
+//   const handleChange = (e) => {
+//     setFormData({ ...formData, [e.target.username]: e.target.value });
+//   };
 
-    const onChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
+const [username,setUsername] =useState('');
+const [email,setEmail] =useState('');
+const [message,setMessage] =useState('');
 
-    const onSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const res = await axios.post('/api/data/report', formData);
-            console.log(res.data);
-        } catch (error) {
-            console.error(error);
-        }
-    };
 
-    return (
-        <form onSubmit={onSubmit}>
-            <div>
-                <label>Name</label>
-                <input type="text" name="name" value={name} onChange={onChange} required />
-            </div>
-            <div>
-                <label>Email</label>
-                <input type="email" name="email" value={email} onChange={onChange} required />
-            </div>
-            <div>
-                <label>Message</label>
-                <textarea  name="message" value={message} onChange={onChange} required></textarea>
-            </div>
-            <button type="submit">Submit</button>
-        </form>
-    );
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(
+        "http:localhost:4000/api/user/register-user",
+        {username, email, message}
+      );
+      console.log(res.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return (
+    <form onSubmit={onSubmit}>
+      <div>
+        <label>Username</label>
+        <input
+          type="text"
+          name="username"
+          value={username}
+          onChange={(e)=>setUsername (e.target.value)}
+          required
+        />
+      </div>
+      <div>
+        <label>Email</label>
+        <input
+          type="email"
+          name="email"
+          value={email}
+          onChange={(e)=>setEmail (e.target.value)}
+          required
+        />
+      </div>
+      <div>
+        <label>Message</label>
+        <textarea
+          name="message"
+          value={message}
+          onChange={(e)=>setMessage (e.target.value)}
+          required
+        ></textarea>
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+  );
 };
 
 export default Report;
-
-
 
 //import React from 'react'
 // import { useState } from 'react';
@@ -55,13 +78,13 @@ export default Report;
 
 // const Reports = () => {
 //   const [formData, setFormData] = useState({
-//     name: "",
+//     username: "",
 //     email: "",
 //     message: "",
 //   });
 
 //   const [formErrors, setFormErrors] = useState({
-//     name: "",
+//     username: "",
 //     email: "",
 //     message: "",
 //   });
@@ -69,16 +92,16 @@ export default Report;
 //   const [formSuccess, setFormSuccess] = useState("");
 
 //   const handleChange = (e) => {
-//     const { name, value } = e.target;
+//     const { username, value } = e.target;
 //     setFormData({
 //       ...formData,
-//       [name]: value,
+//       [username]: value,
 //     });
 //   };
 
 //   const validateForm = () => {
 //     const errors = {};
-//     if (!formData.name) errors.name = "Name is required.";
+//     if (!formData.username) errors.username = "username is required.";
 //     if (!formData.email) errors.email = "Email is required.";
 //     if (!formData.message) errors.message = "Message is required.";
 //     setFormErrors(errors);
@@ -91,16 +114,16 @@ export default Report;
 //       // Here, you can handle form submission, e.g., send the data to a server
 //       console.log("Form submitted:", formData);
 //       setFormSuccess("Thank you for your message. We will get back to you soon.");
-//       setFormData({ name: "", email: "", message: "" });
+//       setFormData({ username: "", email: "", message: "" });
 //       setFormErrors({});
 //     }
 //   };
 
 //   return (
-//     <div className={styles.contactContainer}>
+//     <div classusername={styles.contactContainer}>
 //       <h2>Reports</h2>
 //       <form onSubmit={handleSubmit}>
-//         <label htmlFor="name">Name</label>
+//         <label htmlFor="username">Name</label>
 //         <input
 //           type="text"
 //           id="name"
@@ -138,7 +161,6 @@ export default Report;
 // }
 
 // export default Reports
-
 
 // import React, { useState } from 'react';
 // import styles from './Reports.module.css';
@@ -192,16 +214,6 @@ export default Report;
 // };
 
 // export default Reports;
-
-
-
-
-
-
-
-
-
-
 
 // // import React, { useState, useEffect } from 'react';
 // // import axios from 'axios';
@@ -270,4 +282,3 @@ export default Report;
 // // };
 
 // // export default Reports;
-

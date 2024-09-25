@@ -1,15 +1,18 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-import './index.css'
-import {Provider} from "react-redux"
-import {store} from "./app/store.js"
+// main.jsx or index.js
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css'; // Your global CSS, if any
+import App from './App'; // Import your App component
+import { AuthProvider } from '../Context/AuthContext'; // Correct the path based on your project structure
+import { BrowserRouter } from 'react-router-dom';
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
   <React.StrictMode>
-    <Provider store={store}>
-    <App />
-    </Provider>
-   
-  </React.StrictMode>,
-)
+    <AuthProvider> {/* Wrap App with AuthProvider here */}
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </AuthProvider>
+  </React.StrictMode>
+);
