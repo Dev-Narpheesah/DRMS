@@ -1,26 +1,24 @@
-// models/DataModel.js
 const mongoose = require('mongoose');
 
 const UserInfoSchema = new mongoose.Schema({
-    userInfo:[
-     {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-    }],
-    message: {
+    username: {
         type: String,
-        required: true
-    },
-    role:{
+        required: true,
+      },
+      email: {
         type: String,
-        default: "user"
-
-    },
-    date: {
-        type: Date,
-        default: Date.now
+        required: true,
+        unique: true,
+      },
+      password: {
+        type: String,
+        required: true,
+      },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+      required: true
     }
-});
+})
 
 module.exports = mongoose.model('UserInfo', UserInfoSchema);

@@ -9,35 +9,32 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-const path = require('path');
 
-// Configure multer for file uploads
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // Append timestamp to filename
-  },
-});
-
+// Configure Multer to store files in memory
+const storage = multer.memoryStorage();
 const upload = multer({ storage });
+
+// Function to upload the file to Cloudinary using streams
+const streamUpload = (req) => {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream((error, result) => {
+      if (result) {
+        resolve(result);
+      } else {
+        reject(error);
+      }
+    });
+    streamifier.createReadStream(req.file.buffer).pipe(stream);
+  });
+};
 
 // Create a new disaster report
 const createDisasterReport = async (req, res) => {
   try {
-    const streamUpload = (req) => {
-      return new Promise((resolve, reject) => {
-        const stream = cloudinary.uploader.upload_stream((error, result) => {
-          if (result) {
-            resolve(result);
-          } else {
-            reject(error);
-          }
-        });
-        streamifier.createReadStream(req.file.buffer).pipe(stream);
-      });
-    };
+    // Ensure a file was uploaded
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
 
     const result = await streamUpload(req);
 
@@ -115,7 +112,3 @@ module.exports = {
   deleteDisasterReport,
   upload
 };
-
-
-
-

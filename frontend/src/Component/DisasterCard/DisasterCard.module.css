@@ -1,74 +1,61 @@
-.reportList {
-  max-width: 1200px;
-  margin: 0 auto;
+.container {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  flex-wrap: wrap;
   padding: 20px;
-  background-color: #f3f4f6;
-}
-
-.reportList h2 {
-  text-align: center;
-  color: #333;
-  margin-bottom: 20px;
-  font-size: 26px;
-}
-
-.cardsContainer {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
 }
 
 .card {
   background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  display: flex;
-  flex-direction: column;
+  width: 300px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-}
-
-.imageContainer {
-  height: 150px;
-  background-color: #eaeaea;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  transform: translateY(-10px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .image {
   width: 100%;
-  height: 100%;
+  height: 200px;
   object-fit: cover;
+  border-bottom: 2px solid #ddd;
 }
 
-.imagePlaceholder {
-  color: #777;
-  font-size: 14px;
-}
-
-.cardContent {
-  padding: 15px;
-  flex: 1;
-}
-
-.cardContent h3 {
-  margin: 0 0 10px;
-  font-size: 20px;
-  color: #007bff;
-}
-
-.cardContent p {
-  margin: 5px 0;
-  font-size: 14px;
-  color: #555;
-}
-
-.cardContent p strong {
+.title {
+  font-size: 24px;
+  font-weight: bold;
   color: #333;
+  margin: 15px 0 10px;
+  text-align: center;
+}
+
+.description {
+  font-size: 16px;
+  color: #555;
+  padding: 0 15px;
+  text-align: center;
+}
+
+.button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: block;
+  margin: 15px auto 20px;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #0056b3;
 }

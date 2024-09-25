@@ -12,7 +12,7 @@ import Service from "./Component/Services/Service";
 import About from "./Component/About/About";
 import Contact from "./Component/Contact/Contact";
 import SideBar from "./Component/Sidebar/SideBar";
-import Otp from "./Component/Otp/Otp";
+import UpdateProfile from "./Component/UserDashboard/UpdateProfile";
 import UserDashboard from "./Component/UserDashboard/UserDashboard";
 import AdminDashboard from "./Component/AdminDashboard/AdminDashboard";
 import UserManagement from "./Component/AdminDashboard/UserManagement";
@@ -37,7 +37,7 @@ function App() {
       <Route path="/about" element={<About />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/sidebar" element={<SideBar />} />
-      <Route path="/otp" element={<Otp />} />
+      <Route path="/update" element={<UpdateProfile />} />
       <Route path="/user" element={<UserDashboard />} />
       <Route path="/admin" element={<AdminDashboard />} />
       <Route path="/admin-log" element={<AdminLog />} />

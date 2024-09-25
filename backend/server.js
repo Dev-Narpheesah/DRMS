@@ -6,10 +6,13 @@ const mongoose = require('mongoose')
 require('dotenv').config()
 
 
+
+
 const app = express();
 // connect Mongoose
 
-mongoose.connect(process.env.MONGODB).then(()=>console.log('Conneted to mongo db')).catch((err)=>console.log())
+mongoose.connect(process.env.MONGODB).then(()=>console.log
+('Conneted to mongo db')).catch((err)=>console.log(err))
 // Connect to database
 // connectDB();
 
@@ -24,8 +27,12 @@ app.use(
   ); 
 app.use(bodyParser.json());
 
+
+
+
 // Define routes
 app.use('/api/auth', require('./routes/authRoute'));
+app.use('/api/disaster', require('./routes/disasterRoute'));
 app.use('/api/user', require('./routes/userRoute'));
 app.use('/api/admin', require('./routes/adminRoute'));
 app.use('/api/data', require('./routes/reportRoute'));

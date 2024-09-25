@@ -35,7 +35,7 @@ const [message,setMessage] =useState('');
   };
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} className="report">
       <div>
         <label>Username</label>
         <input

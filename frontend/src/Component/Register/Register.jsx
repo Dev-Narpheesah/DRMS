@@ -2,31 +2,63 @@ import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Register.module.css";
 import {Link} from 'react-router-dom'
-import { AuthContext } from '../../../Context/AuthContext';
+import axios from 'axios';
+import { toast } from "react-toastify";
+import PasswordInput from '../passwordInput/passwordInput'
 
 
+const initialState = {
+  name: "",
+  age: "",
+  roomNum: "",
+  email: "",
+  gender: "",
+  g_name: "",
+  g_email: "",
+  nationality: "",
+};
 const Register = () => {
  
+  const [formData, setFormData] = useState(initialState);
+  const [formValidMessage, setFormValidMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const { username, email, password, confirmPassword} =
+    formData;
 
   const navigate = useNavigate();
-  const { signUp } = useContext(AuthContext);
-  const [username, setUserName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false)
+
+  const handleInputChange = (e) => {
+    const {id, value} = e.target;
+    setFormData({...formData, [id] : value})
+  };
 
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    await signUp(username, email, password);
-  } catch (err) {
-    console.error(err);
-  }
-  setIsLoading(false)
-  navigate("/card")
-};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if(!username || !password || !email || !confirmPassword){
+      toast.error("Please fill all fields")
+      return;
+    }
+  
+    axios.post('http://localhost:4000/api/admin/register' ,formData)
+    .then((response) => {
+      console.log(response)
+      setIsSubmitting(false)
+     
+  
+      toast.success("Registration Successful")
+      navigate('/signin')
+    }).catch((error) => {
+      setIsSubmitting(false)
+      const message = error.response?.status === 400 ?
+      "User already exist" : "Server error "
+      setFormValidMessage(message)
+      toast.error(message)
+    })
+  
+   
+  };
 
   return (
     <>
@@ -39,7 +71,7 @@ const handleSubmit = async (e) => {
            value={username}
             placeholder="eg :username"
             id='username'
-            onChange={(e) => setUserName(e.target.value)}
+            onChange={handleInputChange}
             required
           />
 
@@ -47,43 +79,45 @@ const handleSubmit = async (e) => {
           <input
            value={email}
             placeholder="exanmpl@gmail.com"
-            // id='email'
-            onChange={(e) => setEmail(e.target.value)}
+            id='email'
+            onChange={handleInputChange}
             required
           />
           <div className="">
             <label className={styles.password}>Password</label>
-            <input
+            <PasswordInput
               type="password"
               className={styles.input}
               value={password}
               placeholder="Enter your password"
               required
-              // id='password'
-              onChange={(e) => setPassword(e.target.value)}
+              id='password'
+              onChange={handleInputChange}
             />
           </div>
 
           <div className="">
             <label className={styles.password}>Confirm Password</label>
-            <input
+            <PasswordInput
               type="password"
               className={styles.input}
               value={confirmPassword}
               placeholder="Enter your password"
               required
               id='confirmPassword'
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              onChange={handleInputChange}
             />
           </div>
           <button className={styles.btn} >
-            {isLoading ? "Signing you up..." : "Create Account"}
+            {isSubmitting ? "Signing you up..." : "Create Account"}
           </button>
           <div >
             <p style={{text:"center"}}>Already register{' '}
-              <Link to='/signin'>Sign In</Link>
+              <Link to='/signin' style={{color: "#11648a"}}>Sign In</Link>
             </p>
+
           </div>
+          {formValidMessage && <p className="erro-message">{formValidMessage}</p>}
         </form>
       </div>
     </>

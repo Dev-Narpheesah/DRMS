@@ -32,16 +32,16 @@ const signin = asyncHandler(async (req, res, next) => {
     const isValidPassword = await bcrypt.compare(password, validUser.password);
     if (!isValidPassword) return next(errorHandler(401, "Wrong credentials"));
 
-    // const token = generateToken(validUser._id);
+    const token = generateToken(validUser._id);
 
-    // res.status(200).json({
-    //   user: {
-    //     id: validUser._id,
-    //     username: validUser.username,
-    //     email: validUser.email,
-    //   },
-    //   token,
-    // });
+    res.status(200).json({
+      user: {
+        id: validUser._id,
+        username: validUser.username,
+        email: validUser.email,
+      },
+      token,
+    });
   } catch (error) {
     next(error);
   }

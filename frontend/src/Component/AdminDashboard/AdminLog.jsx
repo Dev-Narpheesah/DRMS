@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import PasswordInput  from '../passwordInput/passwordInput'
 
 const AdminLog = () => {
     const navigate = useNavigate()
@@ -24,7 +25,7 @@ const AdminLog = () => {
     return (
         <form onSubmit={handleSubmit}>
             <input type="email" name="email" placeholder="Email" onChange={handleChange} />
-            <input type="password" name="password" placeholder="Password" onChange={handleChange} />
+            <PasswordInput type="password" name="password" placeholder="Password" onChange={handleChange} />
             <button type="submit">Login</button>
         </form>
     );

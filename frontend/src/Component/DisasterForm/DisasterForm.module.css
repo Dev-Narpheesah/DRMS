@@ -25,10 +25,19 @@ body {
   max-width: 400px;
   width: 100%;
   box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
+  border:1px solid #f7f7f7;
+}
+
+ textarea {
+  width: calc(100% - 22px);
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
 }
 
 /* Label Styling */
-label {
+.container label {
   display: block;
   font-size: 1.1em;
   margin-bottom: 8px;
@@ -36,7 +45,7 @@ label {
 }
 
 /* Input Fields */
-input {
+.container input {
   width: 100%;
   padding: 10px;
   font-size: 1em;

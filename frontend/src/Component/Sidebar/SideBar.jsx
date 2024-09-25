@@ -1,24 +1,37 @@
 import React, { useState } from 'react';
-import styles from './SideBar.module.css';
+import   './SideBar.css';
+import { Link } from 'react-router-dom';
 
 const SideBar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+ 
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen);
+  const handleLinkClick = (index) => {
+    setActiveIndex(index);
   };
+  const dashboardLinks = [
+    {title: "Home", url: "/"},
+    { title: "About", url: "/about" },
+    { title: "Contact", url: "/contact" },
+    { title: "Edit Profile", url: "/update" },
+  ];
+
 
   return (
-    <div className={`sidebar ${isOpen ? 'open' : ''}`}>
-      <button className={styles.toggle-button} onClick={toggleSidebar}>
-        {isOpen ? 'Close' : 'Open'}
-      </button>
-      <nav className={styles.menu}>
-        <a href="#home">Home</a>
-        <a href="#services">Services</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-      </nav>
+    <div className="--flex-start">
+      <div className="left">
+        {dashboardLinks.map(({ title, url }, index) => (
+          <div className="--flex-center --dir-column" key={index}>
+            <Link
+              to={url}
+              className={index === activeIndex ? "active-link" : ""}
+              onClick={() => handleLinkClick(index)}
+            >
+              {title}
+            </Link>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

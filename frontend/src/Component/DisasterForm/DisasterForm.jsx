@@ -1,17 +1,19 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import styles from "./DisasterForm.module.css";
-import { AuthContext } from "../../../Context/AuthContext";
+import axios from "axios";
+// import { AuthContext } from "../../../Context/AuthContext";
 
 const initialState = {
   username: "",
   email: "",
   gender: "",
-  phone: "",
+  phone: 0,
   disasterType: "",
   userImage: null,
   stakeholderName: "",
-  stakeholderPhone: "",
+  stakeholderPhone: 0,
   stakeholderPosition: "",
   location: "",
   report: "",
@@ -19,10 +21,11 @@ const initialState = {
 
 const DisasterForm = () => {
   const navigate = useNavigate();
-  const { createDisasterReport } = useContext(AuthContext);
+  // const { createDisasterReport } = useContext(AuthContext);
   const [formData, setFormData] = useState(initialState);
   const [imagePreview, setImagePreview] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -40,18 +43,29 @@ const DisasterForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    const formDataToSubmit = new FormData();
-    for (const key in formData) {
-      formDataToSubmit.append(key, formData[key]);
-    }
     try {
-      await createDisasterReport(formDataToSubmit);
-      navigate("/card");
-    } catch (err) {
-      console.log("Error submitting form:", err);
+      const response = await axios.post('http://localhost:4000/api/user/register-user', formData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      if (response.data.success === false) {
+        toast.error('Failed to submit report');
+        setIsLoading(false);
+        return;
+      }
+      
+      toast.success('Disaster Report Submitted Successfully');
+      navigate('/card');
+    } catch (error) {
+      setIsLoading(false);
+      console.error('Failed to submit disaster report', error);
+      toast.error('Failed to submit disaster report');
     }
-    setIsLoading(false);
   };
+  
+
 
   return (
     <div className={styles.wrapper}>
@@ -59,7 +73,7 @@ const DisasterForm = () => {
         {/* User Name */}
         <label htmlFor="username">User Name</label>
         <input
-          id="username"
+          
           name="username"
           type="text"
           placeholder="e.g. example"
@@ -71,7 +85,7 @@ const DisasterForm = () => {
         {/* Email Address */}
         <label htmlFor="email">Email Address</label>
         <input
-          id="email"
+    
           name="email"
           type="email"
           placeholder="e.g., example@gmail.com"
@@ -83,7 +97,7 @@ const DisasterForm = () => {
         {/* Gender */}
         <label htmlFor="gender">Gender</label>
         <input
-          id="gender"
+          
           name="gender"
           type="text"
           placeholder="your gender"
@@ -95,7 +109,7 @@ const DisasterForm = () => {
         {/* Phone Number */}
         <label htmlFor="phone">Phone Number</label>
         <input
-          id="phone"
+          
           name="phone"
           type="tel"
           placeholder="e.g., +234 567890"
@@ -107,7 +121,7 @@ const DisasterForm = () => {
         {/* Disaster Type */}
         <label htmlFor="disasterType">Disaster Type</label>
         <select
-          id="disasterType"
+        
           name="disasterType"
           value={formData.disasterType}
           onChange={handleChange}
@@ -124,7 +138,7 @@ const DisasterForm = () => {
         </select>
 
         {/* Image Upload */}
-        <label htmlFor="userImage" className={styles.imgLabel}>
+        {/* <label htmlFor="userImage" className={styles.imgLabel}>
           <input
             type="file"
             id="userImage"
@@ -142,12 +156,12 @@ const DisasterForm = () => {
             />
           )}
           <p>Upload Disaster Image</p>
-        </label>
+        </label> */}
 
         {/* Stakeholder Name */}
         <label htmlFor="stakeholderName">Stakeholder Name</label>
         <input
-          id="stakeholderName"
+          
           name="stakeholderName"
           type="text"
           placeholder="e.g. Stakeholder Name"
@@ -159,7 +173,7 @@ const DisasterForm = () => {
         {/* Stakeholder Phone */}
         <label htmlFor="stakeholderPhone">Stakeholder Phone Number</label>
         <input
-          id="stakeholderPhone"
+          
           name="stakeholderPhone"
           type="tel"
           placeholder="e.g., +234 567890"
@@ -171,7 +185,7 @@ const DisasterForm = () => {
         {/* Stakeholder Position */}
         <label htmlFor="stakeholderPosition">Stakeholder Position</label>
         <select
-          id="stakeholderPosition"
+        
           name="stakeholderPosition"
           value={formData.stakeholderPosition}
           onChange={handleChange}
@@ -189,7 +203,7 @@ const DisasterForm = () => {
         {/* Location */}
         <label htmlFor="location">Location</label>
         <input
-          id="location"
+        
           name="location"
           type="text"
           placeholder="e.g., 123 Main St, Springfield"
@@ -201,7 +215,7 @@ const DisasterForm = () => {
         {/* Report */}
         <label htmlFor="report">Report</label>
         <textarea
-          id="report"
+          
           name="report"
           placeholder="Provide details of the disaster..."
           value={formData.report}

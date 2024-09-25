@@ -42,14 +42,22 @@ const AdminDashboard = () => {
           </div>
         </div>
         <div className={styles.statItem}>
-          <img src="resources_icon.png" alt="Resources" className={styles.statIcon} />
+          <img
+            src="globe.jpeg"
+            alt="Resources"
+            className={styles.statIcon}
+          />
           <div>
             <h3>Resources</h3>
             <p>567</p>
           </div>
         </div>
         <div className={styles.statItem}>
-          <img src="reports_icon.png" alt="Reports" className={styles.statIcon} />
+          <img
+            src="natural.jpeg"
+            alt="Reports"
+            className={styles.statIcon}
+          />
           <div>
             <h3>Reports</h3>
             <p>89</p>

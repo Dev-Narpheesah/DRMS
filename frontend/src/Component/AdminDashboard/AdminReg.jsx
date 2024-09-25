@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import PasswordInput from '../passwordInput/passwordInput'
 
 const AdminReg = () => {
     const navigate = useNavigate()
@@ -25,7 +26,7 @@ const AdminReg = () => {
         <form onSubmit={handleSubmit}>
             <input type="text" name="username" placeholder="Username" onChange={handleChange} />
             <input type="email" name="email" placeholder="Email" onChange={handleChange} />
-            <input type="password" name="password" placeholder="Password" onChange={handleChange} />
+            <PasswordInput type="password" name="password" placeholder="Password" onChange={handleChange} />
             <button type="submit">Register</button>
         </form>
     );
