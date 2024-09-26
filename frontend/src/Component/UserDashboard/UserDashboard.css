@@ -8,6 +8,11 @@
   justify-content: center;
 }
 
+.main-content {
+  flex: 1;
+  padding: 20px;
+}
+
 .__homeDashCon {
   flex-direction: column;
   margin: 20px 160px 0 160px;

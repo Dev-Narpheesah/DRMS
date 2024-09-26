@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import PasswordInput  from '../passwordInput/passwordInput'
+import PasswordInput from '../passwordInput/passwordInput';
+import styles from './AdminHead.module.css';
 
 const AdminLog = () => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({ email: '', password: '' });
 
     const handleChange = (e) => {
@@ -19,15 +20,29 @@ const AdminLog = () => {
         } catch (error) {
             console.error('Error logging in', error);
         }
-        navigate('/admin')
+        navigate('/admin');
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input type="email" name="email" placeholder="Email" onChange={handleChange} />
-            <PasswordInput type="password" name="password" placeholder="Password" onChange={handleChange} />
-            <button type="submit">Login</button>
-        </form>
+        <div className={styles.adminLogWrapper}>
+            <form onSubmit={handleSubmit} className={styles.adminLogForm}>
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    onChange={handleChange}
+                    className={styles.adminLogInput}
+                />
+                <PasswordInput
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    onChange={handleChange}
+                    className={styles.adminLogInput}
+                />
+                <button type="submit" className={styles.adminLogButton}>Login</button>
+            </form>
+        </div>
     );
 };
 

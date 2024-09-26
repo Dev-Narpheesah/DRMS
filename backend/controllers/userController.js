@@ -19,19 +19,7 @@ const registerUser = asyncHandler(async (req, res) => {
     } = req.body;
 
     // Check for required fields
-    if (
-      !email ||
-      !password ||
-      !username ||
-      !stakeholderName ||
-      !stakeholderPhone ||
-      !stakeholderPosition ||
-      !gender ||
-      !phone ||
-      !disasterType ||
-      !location ||
-      !report
-    ) {
+    if (!email || !password || !username || !stakeholderName || !stakeholderPhone || !stakeholderPosition || !gender || !phone || !disasterType || !location || !report) {
       res.status(400);
       throw new Error("Please fill in all the required fields.");
     }
@@ -42,7 +30,20 @@ const registerUser = asyncHandler(async (req, res) => {
       return res.status(400).json({ msg: "User already exists" });
     }
 
-    // Create new user
+    // Automatically assign roles based on conditions
+    let role = 'user';  // Default role
+
+    // Condition: If email is from specific domain, assign 'admin' role
+    if (email.endsWith('@admin.com')) {
+      role = 'admin';
+    }
+
+    // Condition: If username matches specific criteria, assign 'manager' role
+    if (username === 'special_user') {
+      role = 'manager';
+    }
+
+    // Create new user with the assigned role
     const user = await User.create({
       email,
       password,
@@ -51,6 +52,7 @@ const registerUser = asyncHandler(async (req, res) => {
       stakeholderPhone,
       stakeholderPosition,
       gender,
+      role,  // Automatically assigned role
       phone,
       disasterType,
       location,
@@ -63,6 +65,7 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+
 
 // Get All Users
 const getAllUsers = asyncHandler(async (req, res) => {
@@ -98,11 +101,16 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       return res.status(404).json({ msg: "User not found" });
     }
 
+    if (req.user.id !== user.id && req.user.role !== 'admin' && req.user.role !== 'manager') {
+      return res.status(403).json({ message: "Not authorized to update this profile" });
+    }
+
     // Update fields
     user.username = req.body.username || user.username;
     user.email = req.body.email || user.email;
     user.password = req.body.password || user.password; // No need to hash password when updating it
     user.gender = req.body.gender || user.gender;
+    user.role = req.body.role || user.role;
     user.phone = req.body.phone || user.phone;
     user.location = req.body.location || user.location;
     user.disasterType = req.body.disasterType || user.disasterType;
@@ -123,8 +131,15 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 const deleteUser = asyncHandler(async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-    if (!user) {
-      return res.status(404).json({ msg: "User not found" });
+    if (user) {
+      if (user.email === 'admin') {
+        res.status(400).json({ message: 'Can Not Delete Admin User' });
+        return;
+      }
+      await user.remove();
+      res.json({ message: 'User Deleted' });
+    } else {
+      res.status(404).json({ message: 'User Not Found' });
     }
 
     await user.remove();

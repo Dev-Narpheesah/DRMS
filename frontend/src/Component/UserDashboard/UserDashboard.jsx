@@ -10,6 +10,7 @@ import Sidebar from "../Sidebar/SideBar";
 // import { UserContext } from "../../../Context/userContext";
 import useAuthRedirect from "../../../Context/useAuth";
 import { AuthContext } from "../../../Context/AuthContext";
+import DashboardHeader from "./DashboardHeader";
 
 export const shortenText = (text, n) => {
   if (text.length > n) {
@@ -40,13 +41,6 @@ const UserDashboard = () => {
 
         setData(users);
 
-        // const checkedInStudents = users.filter((user) => user.checkedIn);
-        // setCheckedInCount(checkedInStudents.length);
-        // setCheckIn(checkedInStudents);
-
-        // const checkedOutStudents = users.filter((user) => !user.checkedIn);
-        // setCheckedOutCount(checkedOutStudents.length);
-        // setCheckOut(checkedOutStudents);
       } catch (error) {
         console.error("Error fetching student data:", error);
       }
@@ -96,58 +90,19 @@ const UserDashboard = () => {
 
   return (
     <div className="--flex-center __homeDashCon">
-      {sidebarToggle && (
-        <div className="mobile-side-nav">
-          <Sidebar />
-        </div>
-      )}
-
-<div className="--flex-dir-column --overflow-y-auto --overflow-x-hidden ">
      
-     <main className="--flex-justify-center w-full">
-     <div className="right dash-main">
-       <div className="--flex-justify-between">
-       <p>Users</p>
-       {sidebarToggle ? (
 
-         <IoCloseSharp className="sidebar-toggle-iconB"
-         onClick={() => setSidebarToggle(false)}
-         />
-       ):(
-
-
-       <IoMenu className="sidebar-toggle-iconB"
-       onClick={() => setSidebarToggle(true)}
-
-       />
-       )}
-       </div>
-
-       <p>Search users</p>
-       <input
-         placeholder="Search by name, email, or ID number"
-         type="text"
-         className="search"
-         value={search}
-         onChange={(e) => setSearch(e.target.value)}
-       />
-
-      
-          
-     </div>
-     
-     </main>
-   </div>
-
-
-
-      <div className="__paraCon">
+     <div className="main-content">
+        <DashboardHeader />
+        {/* <DashboardContent /> */}
+      </div>
+      {/* <div className="__paraCon">
         <h1 className="__paraHeader">
           Hi {user ? shortenText(user.username, 10) : "Guest"}
         </h1>
-      </div>
+      </div> */}
     
-
+    
       <div className="__secondCon">
         <h3 className="__quickTitle">Quick Stats</h3>
         <div className="__flex __boardss">

@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import styles from "./DisasterForm.module.css";
 import axios from "axios";
+
 // import { AuthContext } from "../../../Context/AuthContext";
 
 const initialState = {
   username: "",
+  password: "",
   email: "",
   gender: "",
   phone: 0,
@@ -70,10 +72,11 @@ const DisasterForm = () => {
   return (
     <div className={styles.wrapper}>
       <form className={styles.container} onSubmit={handleSubmit}>
-        {/* User Name */}
-        <label htmlFor="username">User Name</label>
+
+      <div>
+         {/* User Name */}
+         <label htmlFor="username">User Name</label>
         <input
-          
           name="username"
           type="text"
           placeholder="e.g. example"
@@ -90,6 +93,17 @@ const DisasterForm = () => {
           type="email"
           placeholder="e.g., example@gmail.com"
           value={formData.email}
+          onChange={handleChange}
+          required
+        />
+
+        {/* password */}
+        <label htmlFor="password">Password</label>
+        <input
+        
+          name="password"
+          type="password"
+          value={formData.password}
           onChange={handleChange}
           required
         />
@@ -136,7 +150,8 @@ const DisasterForm = () => {
           <option value="tornado">Tornado</option>
           <option value="other">Other</option>
         </select>
-
+   </div>
+    <div>
         {/* Image Upload */}
         {/* <label htmlFor="userImage" className={styles.imgLabel}>
           <input
@@ -171,7 +186,7 @@ const DisasterForm = () => {
         />
 
         {/* Stakeholder Phone */}
-        <label htmlFor="stakeholderPhone">Stakeholder Phone Number</label>
+        <label htmlFor="stakeholderPhone">Stakeholder Phone </label>
         <input
           
           name="stakeholderPhone"
@@ -222,11 +237,14 @@ const DisasterForm = () => {
           onChange={handleChange}
           required
         ></textarea>
-
         {/* Submit Button */}
-        <button type="submit" className={styles.Btn} disabled={isLoading}>
+</div>
+
+          <button type="submit" className={styles.btn_disaster} disabled={isLoading}>
           {isLoading ? "Submitting..." : "Submit Report"}
         </button>
+      
+
       </form>
     </div>
   );

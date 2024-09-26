@@ -1,35 +1,38 @@
-const jwt = require("jsonwebtoken");
-const asyncHandler = require("express-async-handler");
-const Admin = require("../models/AdminModel");
+const jwt = require('jsonwebtoken');
+const User = require('../models/UserModel');
 
-
-const protect = asyncHandler(async (req, res, next) => {
+// Middleware to protect routes
+const protect = async (req, res, next) => {
   let token;
+
   if (
     req.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
+    req.headers.authorization.startsWith('Bearer')
   ) {
     try {
-      token = req.headers.authorization.split(" ")[1];
-      // Verify token
+      token = req.headers.authorization.split(' ')[1];
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      // Get user from the token
-      req.user = await Admin.findById(decoded.id).select("-password");
-      if (!req.user) {
-        res.status(401);
-        throw new Error("Not authorized, user not found");
-      }
+
+      // Attach user data to the request
+      req.user = await User.findById(decoded.id).select('-password');
+      
       next();
     } catch (error) {
-      console.error(error);
-      res.status(401);
-      throw new Error("Not authorized, token failed");
+      res.status(401).json({ message: 'Not authorized, token failed' });
     }
+  } else {
+    res.status(401).json({ message: 'Not authorized, no token' });
   }
-  if (!token) {
-    res.status(401);
-    throw new Error("Not authorized, no token");
-  }
-});
+};
 
-module.exports = {protect};
+// Middleware to check for specific roles
+const authorize = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return res.status(403).json({ message: 'Access denied, insufficient permissions' });
+    }
+    next();
+  };
+};
+
+module.exports = { protect, authorize };
