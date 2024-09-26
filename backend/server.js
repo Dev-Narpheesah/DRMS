@@ -19,7 +19,7 @@ mongoose.connect(process.env.MONGODB).then(()=>console.log
 // Middleware
 app.use(
     cors({
-      origin: ["http://localhost:5173"],
+      origin: ["https://drms-chi.vercel.app/"],
       credentials: true,
       optionsSuccessStatus: 200,
       methods: "GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS",
