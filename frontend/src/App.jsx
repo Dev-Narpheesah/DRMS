@@ -3,7 +3,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 
-// Import your components
+
 import Home from "./Component/Home/Home";
 import SignIn from "./Component/SignIn/SignIn";
 import Register from './Component/Register/Register';
@@ -23,13 +23,13 @@ import AdminReg from "./Component/AdminDashboard/AdminReg";
 import DisasterCard from "./Component/DisasterCard/DisasterCard";
 import DisasterForm from "./Component/DisasterForm/DisasterForm";
 import HelpForm from "./Component/Help/HelpForm";
-import PostsList from "./features/posts/Postslist";
+import DisasterReport from "./Component/DisasterCard/DisasterReport";
+
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/post" element={<PostsList />} />
       <Route path="/signin" element={<SignIn />} />
       <Route path="/signup" element={<Register />} />
       <Route path="/hero" element={<HeroSection />} />
@@ -46,6 +46,7 @@ function App() {
       <Route path="/resource" element={<ResourceManagement />} />
       <Route path="/report" element={<Reports />} />
       <Route path="/card" element={<DisasterCard />} />
+      <Route path="/disReport" element={<DisasterReport/>} />
       <Route path="/disForm" element={<DisasterForm />} />
       <Route path="/help" element={<HelpForm />} />
     </Routes>
