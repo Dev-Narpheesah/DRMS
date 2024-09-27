@@ -2,13 +2,14 @@ import React, { useState, useContext, useCallback } from "react";
 import styles from "./SignIn.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 import PasswordInput from "../passwordInput/passwordInput";
+import { AuthContext } from "../../../Context/AuthContext";
 
 const SignIn = () => {
+  const { setUser } = useContext(AuthContext); // Get setUser from context
   const navigate = useNavigate();
-  // const{ setUser} = useContext(UserContext);
-  const [user, setUser] = useState();
-
+  
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -33,16 +34,16 @@ const SignIn = () => {
       const { email, password } = formData;
 
       if (!email || !password) {
-        setFormValidMessage("Fill up the required place");
+        setFormValidMessage("Please fill in all required fields");
         return;
       }
-      setIsSubmitting(true);
+      
+      setIsSubmitting(true); // Disable the button
 
       axios
         .post("http://localhost:4000/api/admin/login", formData)
         .then((response) => {
-          // console.log(response.data);
-          setUser(response.data);
+          setUser(response.data); // Set user in context
           setIsSubmitting(false);
           toast.success("Login Successful");
           navigate("/user", { state: { user: response.data } });
@@ -51,9 +52,10 @@ const SignIn = () => {
           setIsSubmitting(false);
           const message =
             error.response?.status === 400
-              ? "Invalid  Credentials"
-              : "Server error";
+              ? "Invalid Credentials"
+              : "Server error. Please try again later.";
           setFormValidMessage(message);
+          toast.error(message);
         });
     },
     [formData, navigate, setUser]
@@ -70,6 +72,7 @@ const SignIn = () => {
             name="email"
             value={formData.email}
             onChange={handleInputChange}
+            required
           />
         </div>
         <div className={styles.inputContainer}>
@@ -79,20 +82,21 @@ const SignIn = () => {
             name="password"
             value={formData.password}
             onChange={handleInputChange}
+            required
           />
         </div>
         <button
-          // disabled={loading}
           className={styles.submit}
           type="submit"
+          disabled={isSubmitting} // Disable button while submitting
         >
-          Sign In
+          {isSubmitting ? "Signing In..." : "Sign In"}
         </button>
         <p className={styles.signupLink}>
           No account?
-          <Link to="/register">Sign up</Link>
+          <Link to="/signup">Sign up</Link>
         </p>
-        {/* {error && <p>{error}</p>} */}
+        {formValidMessage && <p className={styles.errorMessage}>{formValidMessage}</p>}
       </form>
     </div>
   );

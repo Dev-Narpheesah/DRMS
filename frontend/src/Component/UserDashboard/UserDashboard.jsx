@@ -1,63 +1,47 @@
 import React, { useState, useEffect, useContext } from "react";
-
 import axios from "axios";
 import "./UserDashboard.css";
-
-import { IoMenu, IoCloseSharp  } from "react-icons/io5";
-import { Link } from "react-router-dom";
-import Sidebar from "../Sidebar/SideBar";
-
+import { IoMenu, IoCloseSharp, IoLogOutOutline } from "react-icons/io5"; // Logout Icon
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../Context/AuthContext";
-import DashboardHeader from "./DashboardHeader";
+import { toast } from "react-toastify";
 
-export const shortenText = (text, n) => {
+export const shortenText = (text = '', n) => {
   if (text.length > n) {
-    const shoretenedText = text.substring(0, n).concat("...");
-    return shoretenedText;
+    const shortenedText = text.substring(0, n).concat("...");
+    return shortenedText;
   }
   return text;
 };
 
 const UserDashboard = () => {
-
-
-
-  const { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
   const [data, setData] = useState([]);
   const [checkedInCount, setCheckedInCount] = useState(0);
   const [checkedOutCount, setCheckedOutCount] = useState(0);
-  const [checkIn, setCheckIn] = useState([]);
-  const [checkOut, setCheckOut] = useState([]);
   const [sidebarToggle, setSidebarToggle] = useState(false);
-  const [search, setSearch] = useState("");    
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/api/admin/total-users");
+        const response = await axios.get(
+          "http://localhost:4000/api/admin/total-users"
+        );
         const users = response.data;
-
         setData(users);
-
       } catch (error) {
-        console.error("Error fetching student data:", error);
+        console.error("Error fetching data:", error);
       }
     };
     fetchUsers();
-
-    
   }, []);
 
   const formatDate = (dateTime) => {
     if (!dateTime) {
       return "Invalid Date";
     }
-
     const date = new Date(dateTime);
-    if (isNaN(date.getTime())) {
-      return "Invalid Date";
-    }
-
     const options = {
       weekday: "short",
       year: "numeric",
@@ -69,49 +53,65 @@ const UserDashboard = () => {
       hour12: false,
       timeZone: "UTC",
     };
-
     return new Intl.DateTimeFormat("en-US", options).format(date);
   };
 
-  const logOutUser = async () => {
+  const logout = async () => {
     try {
-      await axios.post("https://localhost:4000/api/admin/logout", null, {
+      await axios.post("http://localhost:4000/api/admin/logout", null, {
         withCredentials: true,
       });
       setUser(null);
-      toast.success("user loged out! 😊");
-      navigate("/login");
+      toast.success("User logged out! 😊");
+      navigate("/signin");
     } catch (error) {
       console.error("Failed to logout", error);
     }
   };
 
+
   return (
     <div className="--flex-center __homeDashCon">
-     
-
-     <div className="main-content">
-        <DashboardHeader />
-        {/* <DashboardContent /> */}
-      </div>
-      {/* <div className="__paraCon">
+      <div className="__paraCon">
         <h1 className="__paraHeader">
-          Hi {user ? shortenText(user.username, 10) : "Guest"}
+          {user && user.username ? `Hi ${shortenText(user.username, 8)}` : "Hi User"}
         </h1>
-      </div> */}
-    
-    
+        {user && user.profilePicture && (
+          <img
+            src={user.profilePicture}
+            alt="Profile"
+            className="__profilePicture"
+          />
+        )}
+      </div>
+      
+      {/* Sidebar Toggle */}
+      <div className="__menuToggle">
+        <button onClick={() => setSidebarToggle(!sidebarToggle)}>
+          {sidebarToggle ? <IoCloseSharp /> : <IoMenu />}
+        </button>
+        {sidebarToggle && (
+          <div className="__sidebar">
+            <Link to="/profile">Profile</Link>
+            <Link to="/reports">Reports</Link>
+            <button className="__logoutBtn" onClick={logout}>
+              <IoLogOutOutline /> Logout
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Quick Stats */}
       <div className="__secondCon">
         <h3 className="__quickTitle">Quick Stats</h3>
         <div className="__flex __boardss">
           <div className="__board">
             <p className="__boardHead">{data.length}</p>
             <p className="__boardDetails"> Users</p>
-        
           </div>
           <div className="__board">
             <p className="__boardHead">{checkedInCount}</p>
-            <p className="__boardDetails">Reported </p>
+            <p className="__boardDetails">Reported</p>
           </div>
           <div className="__board">
             <p className="__boardHead">{checkedOutCount}</p>
@@ -120,11 +120,11 @@ const UserDashboard = () => {
         </div>
       </div>
 
-
+      {/* Add more functionality */}
       <div className="__lastCon">
         <div className="__homeBtn">
           <button className="__addBtn">
-            <Link to="/signup">Add user</Link>
+            <Link to="/signup">Add User</Link>
           </button>
           <button className="__attendBtn">
             <Link to="/help">Donate</Link>

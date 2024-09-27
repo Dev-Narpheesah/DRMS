@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import styles from "./Register.module.css";
 import axios from 'axios';
 import { toast } from "react-toastify";
 import PasswordInput from '../passwordInput/passwordInput';
+import { AuthContext } from "../../../Context/AuthContext";
 
 const initialState = {
   username: '',
@@ -13,7 +14,9 @@ const initialState = {
 };
 
 const Register = () => {
+  const { setUser} = useContext(AuthContext);
   const [formData, setFormData] = useState(initialState);
+  const [formCompleted, setFormCompleted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formValidMessage, setFormValidMessage] = useState("");
 
@@ -25,62 +28,24 @@ const Register = () => {
     setFormData({ ...formData, [id]: value });
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   setFormValidMessage(""); // Clear previous messages
-  //   setIsSubmitting(true); // Set submitting state to true
-
-  //   // Validate inputs
-  //   if (!username || !email || !password || !confirmPassword) {
-  //     toast.error("Please fill all fields");
-  //     setIsSubmitting(false);
-  //     return;
-  //   }
-
-  //   if (password !== confirmPassword) {
-  //     toast.error("Passwords do not match");
-  //     setIsSubmitting(false);
-  //     return;
-  //   }
-
-  //   try {
-  //     const response = await axios.post('http://localhost:4000/api/admin/register', formData);
-  //     console.log(response);
-  //     toast.success("Registration Successful");
-  //     navigate('/signin');
-  //   } catch (error) {
-  //     const message = error.response?.status === 400
-  //       ? "User already exists"
-  //       : "Server error";
-  //     setFormValidMessage(message);
-  //     toast.error(message);
-  //   } finally {
-  //     setIsSubmitting(false); // Reset submitting state regardless of outcome
-  //   }
-  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const response = await axios.post('http://localhost:4000/api/admin/register', formData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      
-      if (response.data.success === false) {
-        toast.error('Failed to submit report');
+      axios.post('http://localhost:4000/api/admin/register', formData)
+      .then((response) => {
+        setUser(response.data)
         setIsSubmitting(false);
-        return;
-      }
-      
-      toast.success('Disaster Report Submitted Successfully');
-      navigate('/signin');
+        setFormCompleted(true);
+        toast.success("Registration Successfully")
+        navigate('/signin', {state: {user: response.data}});
+      });
+  
     } catch (error) {
       setIsSubmitting(false);
-      console.error('Failed to submit disaster report', error);
-      toast.error('Failed to submit disaster report');
+      console.error('Failed to register user', error);
+      toast.error('Failed to register user');
     }
   };
 

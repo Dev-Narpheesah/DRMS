@@ -3,29 +3,31 @@
 import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
+
+
  const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
+    
+  
+    const [user, setUser] = useState(() => {
+        const savedUser = localStorage.getItem("user");
+        return savedUser ? JSON.parse(savedUser) : null;
+    });
 
-    const registerUser = async (formData) => {
-        try {
-            const response = await axios.post('http://localhost:4000/api/user/register-user', formData);
-            const userData = response.data;
-            setUser(userData); 
-        } catch (error) {
-            console.error('Registration Error:', error);
+    useEffect(() => {
+        if (user) {
+            localStorage.setItem("user", JSON.stringify(user))
+        } else {
+            localStorage.removeItem("user")
         }
-    };
+    }, [user])
 
-    const logout = () => {
-        setUser(null); 
-    };
+  
 
  
     return (
-        <AuthContext.Provider value={{ user, loading, registerUser, logout }}>
+        <AuthContext.Provider value={{ user, setUser }}>
             {children}
         </AuthContext.Provider>
     );

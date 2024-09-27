@@ -50,4 +50,15 @@ const getAllUsers = async (req, res) => {
     }
 };
 
-module.exports = { registerUser, loginUser, getAllUsers };
+
+const logoutUser = async (req, res) => {
+    try {
+        // Simply send a response indicating the user is logged out
+        res.status(200).json({ message: 'User logged out successfully' });
+    } catch (error) {
+        console.error(error); // Log the error for debugging
+        res.status(500).json({ message: 'Something went wrong during logout' });
+    }
+};
+
+module.exports = { registerUser, loginUser, logoutUser, getAllUsers };
