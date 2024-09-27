@@ -25,32 +25,36 @@ const UserManagement = () => {
   };
 
   return (
-    <div className={styles.userManagement}>
-      <h4>Add New User</h4>
-      <div className={styles.form}>
+    <div className={styles['user-management']}>
+      <h4 className={styles['user-management__heading']}>Add New User</h4>
+      <div className={styles['user-management__form']}>
         <input
           type="text"
           placeholder="Name"
           value={name}
+          className={styles['user-management__input']}
           onChange={(e) => setName(e.target.value)}
         />
         <input
           type="email"
           placeholder="Email"
           value={email}
+          className={styles['user-management__input']}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <button className={styles.add} onClick={addUser}>Add User</button>
+        <button className={styles['user-management__add-btn']} onClick={addUser}>Add User</button>
       </div>
-      <h4>User List</h4>
-      <ul className={styles.userList}>
+      <h4 className={styles['user-management__heading']}>User List</h4>
+      <ul className={styles['user-management__list']}>
         {users.map(user => (
-          <li key={user.id}>
-            {user.name} ({user.email})
-            <div>
-
-            <button className={styles.userBtn} onClick={() => deleteUser(user.id)}>Delete</button>
-            </div>
+          <li key={user.id} className={styles['user-management__list-item']}>
+            <span>{user.name} ({user.email})</span>
+            <button
+              className={styles['user-management__delete-btn']}
+              onClick={() => deleteUser(user.id)}
+            >
+              Delete
+            </button>
           </li>
         ))}
       </ul>

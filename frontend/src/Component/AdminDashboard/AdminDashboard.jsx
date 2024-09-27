@@ -25,65 +25,68 @@ const AdminDashboard = () => {
   }, []);
 
   return (
-    <div className={styles.dashboard}>
+    <div className={styles["admin-dashboard"]}>
       <AdminHead />
 
-      <div className={styles.welcome}>
-        <h2>Welcome to the Admin Dashboard</h2>
-        <p>Manage your resources and monitor key metrics effortlessly.</p>
-      </div>
+      {/* Sidebar */}
+      <aside className={styles["sidebar"]}>
+        <nav className={styles["sidebar__nav"]}>
+          <ul className={styles["sidebar__list"]}>
+            <li className={styles["sidebar__item"]}><a href="#users">Manage Users</a></li>
+            <li className={styles["sidebar__item"]}><a href="#resources">Manage Resources</a></li>
+            <li className={styles["sidebar__item"]}><a href="#reports">View Reports</a></li>
+          </ul>
+        </nav>
+      </aside>
 
-      <div className={styles.stats}>
-        <div className={styles.statItem}>
-          <img src="lady.jpeg" alt="Users" className={styles.statIcon} />
-          <div>
-            <h3>Users</h3>
-            <p>{totalUsers}</p>
-          </div>
+      {/* Main Content */}
+      <div className={styles["admin-dashboard__main-content"]}>
+        <div className={styles["admin-dashboard__welcome"]}>
+          <h2>Welcome to the Admin Dashboard</h2>
+          <p>Manage your resources and monitor key metrics effortlessly.</p>
         </div>
-        <div className={styles.statItem}>
-          <img
-            src="globe.jpeg"
-            alt="Resources"
-            className={styles.statIcon}
-          />
-          <div>
-            <h3>Resources</h3>
-            <p>567</p>
-          </div>
-        </div>
-        <div className={styles.statItem}>
-          <img
-            src="natural.jpeg"
-            alt="Reports"
-            className={styles.statIcon}
-          />
-          <div>
-            <h3>Reports</h3>
-            <p>89</p>
-          </div>
-        </div>
-      </div>
 
-      <div className={styles.content}>
-        <section id={styles.users}>
-          <h3>Manage Users</h3>
-          <UserManagement />
-        </section>
-        <section id={styles.resources}>
-          <h3>Manage Resources</h3>
-          <ResourceManagement />
-        </section>
-        <section id={styles.reports}>
-          <h3>View Reports</h3>
-          <Reports />
-        </section>
+        <div className={styles["admin-dashboard__stats"]}>
+          <div className={styles["admin-dashboard__stat-item"]}>
+            <img src="lady.jpeg" alt="Users" className={styles["admin-dashboard__stat-icon"]} />
+            <div>
+              <h3>Users</h3>
+              <p>{totalUsers}</p>
+            </div>
+          </div>
+          <div className={styles["admin-dashboard__stat-item"]}>
+            <img src="globe.jpeg" alt="Resources" className={styles["admin-dashboard__stat-icon"]} />
+            <div>
+              <h3>Resources</h3>
+              <p>567</p>
+            </div>
+          </div>
+          <div className={styles["admin-dashboard__stat-item"]}>
+            <img src="natural.jpeg" alt="Reports" className={styles["admin-dashboard__stat-icon"]} />
+            <div>
+              <h3>Reports</h3>
+              <p>89</p>
+            </div>
+          </div>
+        </div>
+
+        <div className={styles["admin-dashboard__content"]}>
+          <section id="users" className={styles["admin-dashboard__section"]}>
+            <h3>Manage Users</h3>
+            <UserManagement />
+          </section>
+          <section id="resources" className={styles["admin-dashboard__section"]}>
+            <h3>Manage Resources</h3>
+            <ResourceManagement />
+          </section>
+          <section id="reports" className={styles["admin-dashboard__section"]}>
+            <h3>View Reports</h3>
+            <Reports />
+          </section>
+        </div>
       </div>
     </div>
   );
 };
 
 export default AdminDashboard;
-
-
-

@@ -1,56 +1,75 @@
-.resourceManagement {
-    background: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .resourceManagement h4 {
-    margin-bottom: 20px;
-  }
-  
-  .form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .form input {
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 3px;
-  }
-  
-  .form button {
-    background: #ff5a5f;
-    border: none;
-    color: #fff;
-    padding: 10px;
-    cursor: pointer;
-    border-radius: 3px;
-  }
-  
-  .resourceList {
-    list-style: none;
-    padding: 0;
-    margin-top: 20px;
-  }
-  
-  .resourceList li {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 3px;
-    margin-bottom: 10px;
-  }
-  
-  .resourceList button {
-    background: #ff5a5f;
-    border: none;
-    color: #fff;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 3px;
-  }
-  
+/* ResourceManagement.module.css */
+.resource-management {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.resource-management__heading {
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+.resource-management__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.resource-management__input {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1em;
+  transition: border-color 0.3s ease;
+}
+
+.resource-management__input:focus {
+  border-color: #1abc9c;
+}
+
+.resource-management__add-btn {
+  background-color: #ff5a5f;
+  border: none;
+  color: #fff;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.resource-management__add-btn:hover {
+  background-color: #e74c3c;
+}
+
+.resource-management__list {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.resource-management__list-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  background-color: #fafafa;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.resource-management__delete-btn {
+  background-color: #ff5a5f;
+  border: none;
+  color: #fff;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.resource-management__delete-btn:hover {
+  background-color: #e74c3c;
+}

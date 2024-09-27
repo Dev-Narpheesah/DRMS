@@ -25,29 +25,36 @@ const ResourceManagement = () => {
   };
 
   return (
-    <div className={styles.resourceManagement}>
-      <h4>Add New Resource</h4>
-      <div className={styles.form}>
+    <div className={styles['resource-management']}>
+      <h4 className={styles['resource-management__heading']}>Add New Resource</h4>
+      <div className={styles['resource-management__form']}>
         <input
           type="text"
           placeholder="Resource Name"
           value={name}
+          className={styles['resource-management__input']}
           onChange={(e) => setName(e.target.value)}
         />
         <input
           type="number"
           placeholder="Quantity"
           value={quantity}
+          className={styles['resource-management__input']}
           onChange={(e) => setQuantity(e.target.value)}
         />
-        <button onClick={addResource}>Add Resource</button>
+        <button className={styles['resource-management__add-btn']} onClick={addResource}>Add Resource</button>
       </div>
-      <h4>Resource List</h4>
-      <ul className={styles.resourceList}>
+      <h4 className={styles['resource-management__heading']}>Resource List</h4>
+      <ul className={styles['resource-management__list']}>
         {resources.map(resource => (
-          <li key={resource.id}>
-            {resource.name} (Quantity: {resource.quantity})
-            <button onClick={() => deleteResource(resource.id)}>Delete</button>
+          <li key={resource.id} className={styles['resource-management__list-item']}>
+            <span>{resource.name} (Quantity: {resource.quantity})</span>
+            <button
+              className={styles['resource-management__delete-btn']}
+              onClick={() => deleteResource(resource.id)}
+            >
+              Delete
+            </button>
           </li>
         ))}
       </ul>

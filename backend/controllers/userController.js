@@ -1,6 +1,12 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/UserModel");
 
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: "30d",
+  });
+};
+
 // Register User
 const registerUser = asyncHandler(async (req, res) => {
   try {
@@ -63,6 +69,37 @@ const registerUser = asyncHandler(async (req, res) => {
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
+  }
+});
+
+
+const loginUser = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+
+  // Validate email and password fields
+  if (!email || !password) {
+    res.status(400);
+    throw new Error("Please provide an email and password.");
+  }
+
+  // Check if user exists
+  const user = await User.findOne({ email });
+
+  if (user && (await bcrypt.compare(password, user.password))) {
+    // Passwords match, generate token
+    const token = generateToken(user._id);
+
+    // Send back user data and token
+    res.status(200).json({
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+      token,
+    });
+  } else {
+    res.status(401);
+    throw new Error("Invalid email or password.");
   }
 });
 
@@ -152,6 +189,7 @@ const deleteUser = asyncHandler(async (req, res) => {
 
 module.exports = {
   registerUser,
+  loginUser,
   getAllUsers,
   getUser,
   updateUserProfile,
