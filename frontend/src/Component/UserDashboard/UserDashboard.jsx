@@ -126,9 +126,7 @@ const UserDashboard = () => {
           <button className="__addBtn">
             <Link to="/signup">Add User</Link>
           </button>
-          <button className="__attendBtn">
-            <Link to="/help">Donate</Link>
-          </button>
+          
         </div>
       </div>
     </div>

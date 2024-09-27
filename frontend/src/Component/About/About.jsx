@@ -1,9 +1,10 @@
 import React from 'react';
 import styles from './About.module.css';
+import { Link } from 'react-router-dom';
 
 const About = () => {
   const handleJoinUsClick = () => {
-    alert('Thank you for your interest! We will get in touch with you soon.');
+    alert('Thank you for donating! ');
   };
 
   return (
@@ -59,7 +60,10 @@ const About = () => {
               />
             </div>
           </section>
-          <button className={styles.joinUsButton} onClick={handleJoinUsClick}>Join Us</button>
+          <button className={styles.joinUsButton} onClick={handleJoinUsClick}>
+            <Link to="/help">Donate</Link>
+          </button>
+          
         </div>
       </div>
     </div>
