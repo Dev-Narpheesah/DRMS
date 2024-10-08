@@ -1,18 +1,19 @@
-// main.jsx or index.js
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css'; // Your global CSS, if any
-import App from './App'; // Import your App component
-import { AuthProvider } from '../Context/AuthContext';
-import { BrowserRouter } from 'react-router-dom';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+import "./index.css";
+import { BrowserRouter } from "react-router-dom";
+import { UserProvider } from "../context/userContext.jsx";
+import { ToastContainer } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <AuthProvider> {/* Wrap App with AuthProvider here */}
+    <UserProvider>
       <BrowserRouter>
+        <ToastContainer />
         <App />
       </BrowserRouter>
-    </AuthProvider>
+    </UserProvider>
   </React.StrictMode>
 );

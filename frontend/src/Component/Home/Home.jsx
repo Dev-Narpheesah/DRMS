@@ -48,7 +48,7 @@ const Home = () => {
             and support to those in need.
           </p>
           <button className={styles.CtaBtn}>
-            <Link to="/signup">Get Started</Link>
+            <Link to="/about">Learn More</Link>
           </button>
         </section>
 

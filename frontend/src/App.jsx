@@ -46,7 +46,7 @@ function App() {
       <Route path="/resource" element={<ResourceManagement />} />
       <Route path="/report" element={<Reports />} />
       <Route path="/card" element={<DisasterCard />} />
-      <Route path="/disReport" element={<DisasterReport/>} />
+      <Route path="/disReport/:id" element={<DisasterReport/>} />
       <Route path="/disForm" element={<DisasterForm />} />
       <Route path="/help" element={<HelpForm />} />
     </Routes>

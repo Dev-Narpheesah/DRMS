@@ -46,7 +46,7 @@
   text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
 }
 
-.heroButton {
+.joinUsButton {
   background-color: #96E1DC;
   color: #141315;
   padding: 15px 30px;
@@ -59,9 +59,11 @@
   text-decoration: none;
 }
 
-.heroButton:hover {
-  background-color: #6fd5ce;
+.joinUsButton:hover {
+  background-color: #38908a;
   color: #141315;
   transform: scale(1.05);
 }
+
+
 

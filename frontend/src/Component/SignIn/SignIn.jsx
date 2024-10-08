@@ -4,10 +4,10 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import PasswordInput from "../passwordInput/passwordInput";
-import { AuthContext } from "../../../Context/AuthContext";
+import { UserContext } from "../../../context/userContext";
 
 const SignIn = () => {
-  const { setUser } = useContext(AuthContext); // Get setUser from context
+  const { setUser } = useContext(UserContext); // Get setUser from context
   const navigate = useNavigate();
   
   const [formData, setFormData] = useState({

@@ -1,29 +1,19 @@
 const express = require("express");
+const multer = require("multer");
 const {
-  registerUser,
-  loginUser,
-  getAllUsers,
-  getUser,
-  updateUserProfile,
-  deleteUser,
+    registerUser,
+    getAllUsers,
+    getUser,
+    updateUserProfile,
+    deleteUser,
 } = require("../controllers/userController");
-const { protect, authorize } = require("../Middleware/authMiddleware");
 
 const router = express.Router();
-router.post("/login", loginUser);
-
-router.post("/register-user", registerUser);
-
-
-router.get("/", protect, authorize('admin'), getAllUsers);
-
-
-router.get("/:id", protect, getUser);
-
-
-router.patch("/:id", protect, authorize('admin', 'manager'), updateUserProfile);
-
-
-router.delete("/delete-user/:id", protect, authorize('admin'), deleteUser);
+const upload = multer(); 
+router.post("/register", upload.single('file'), registerUser); 
+router.get("/", getAllUsers);  
+router.get("/:id", getUser);  
+router.patch("/:id", upload.single('file'), updateUserProfile);  
+router.delete("/:id", deleteUser); 
 
 module.exports = router;

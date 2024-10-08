@@ -18,6 +18,9 @@ const heroImages = [
 ];
 
 const HeroSection = () => {
+  const handleJoinUsClick = () => {
+    alert('Thank you for donating! ');
+  };
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
@@ -36,7 +39,9 @@ const HeroSection = () => {
       <div className={styles.heroContent}>
         <h1 className={styles.heroTitle}>{heroImages[currentSlide].title}</h1>
         <p className={styles.heroSubtitle}>{heroImages[currentSlide].subtitle}</p>
-        <Link to="/signup" className={styles.heroButton}>Get Started</Link>
+        <button className={styles.joinUsButton} onClick={handleJoinUsClick}>
+            <Link to="/help">Donate</Link>
+          </button>
       </div>
       <div className={styles.navigationDots}>
         {heroImages.map((_, index) => (

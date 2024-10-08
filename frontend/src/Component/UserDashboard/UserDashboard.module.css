@@ -1,11 +1,11 @@
-/* General Flex Centering */
+/* 
 .__flex {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* Container */
+
 .__homeDashCon {
   display: flex;
   flex-direction: column;
@@ -18,7 +18,6 @@
   padding: 24px;
 }
 
-/* Header */
 .__paraHeader {
   font-family: 'Poppins', sans-serif;
   font-size: 32px;
@@ -28,7 +27,7 @@
   color: #0b3b52;
 }
 
-/* Profile Picture Styling */
+
 .__profilePicture {
   width: 80px;
   height: 80px;
@@ -36,7 +35,7 @@
   margin-top: 10px;
 }
 
-/* Quick Stats */
+
 .__secondCon {
   width: 100%;
   margin-top: 20px;
@@ -81,7 +80,7 @@
   text-align: center;
 }
 
-/* Add User and Donate Buttons */
+
 .__homeBtn {
   display: flex;
   gap: 10px;
@@ -107,7 +106,7 @@
   color: #121417;
 }
 
-/* Sidebar Toggle */
+
 .__menuToggle {
   position: relative;
 }
@@ -145,7 +144,7 @@
   cursor: pointer;
 }
 
-/* Media Queries */
+
 @media (max-width: 768px) {
   .__homeDashCon {
     margin: 20px;
@@ -191,4 +190,103 @@
     flex-direction: column;
     gap: 10px;
   }
+} */
+
+
+/* UserDashboard.module.css  */
+.dashboard {
+  padding: 20px;
+  background-color: #f8f9fc;
+  color: #333;
+  font-family: Arial, sans-serif;
 }
+
+
+.dashboardHeader {
+  text-align: left;
+  padding: 20px;
+}
+
+.dashboardHeader h1 {
+  font-size: 28px;
+  color: #4b4f56;
+}
+
+.dashboardHeader p {
+  color: #6c757d;
+}
+
+
+.currentReportSection {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  margin: 20px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.currentReportCard {
+  padding: 15px;
+  border-left: 6px solid #4b9cdb;
+}
+
+.currentReportCard h3 {
+  font-size: 22px;
+  color: #333;
+}
+
+.currentReportCard p {
+  font-size: 16px;
+  color: #555;
+}
+
+
+.statisticsSection {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+.statCard {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 30%;
+  text-align: center;
+}
+
+.statCard h3 {
+  font-size: 18px;
+  color: #4b4f56;
+}
+
+.statCard p {
+  font-size: 22px;
+  font-weight: bold;
+  color: #007bff;
+}
+
+
+.reportsSection {
+  margin-top: 20px;
+}
+
+.reportsSection h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.reportGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr );
+  gap: 20px;
+}
+
+.reportGrid div {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+} 

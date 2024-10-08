@@ -1,44 +1,36 @@
-import React, { useState } from 'react';
-import   './SideBar.css';
-import { Link } from 'react-router-dom';
+// Sidebar.js
+import React from "react";
+import { NavLink } from "react-router-dom";
+import styles from "./SideBar.module.css"; // CSS for styling
 
-const SideBar = () => {
- 
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const handleLinkClick = (index) => {
-    setActiveIndex(index);
-  };
-  const dashboardLinks = [
-    {title: "Home", url: "/"},
-    { title: "About", url: "/about" },
-    { title: "Contact", url: "/contact" },
-    { title: "Edit Profile", url: "/update" },
-  ];
-
-
+const Sidebar = () => {
   return (
-    <div className="--flex-start">
-      <div className="left">
-        {dashboardLinks.map(({ title, url }, index) => (
-          <div className="--flex-center --dir-column" key={index}>
-            <Link
-              to={url}
-              className={index === activeIndex ? "active-link" : ""}
-              onClick={() => handleLinkClick(index)}
-            >
-              {title}
-            </Link>
-          </div>
-        ))}
-      </div>
+    <div className={styles.sidebar}>
+      <h2>Navigation</h2>
+      <ul>
+        <li>
+          <NavLink to="/user" activeClassName={styles.active}>
+            Dashboard
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/card" activeClassName={styles.active}>
+            Disaster Reports
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/profile" activeClassName={styles.active}>
+            Profile
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/settings" activeClassName={styles.active}>
+            Settings
+          </NavLink>
+        </li>
+      </ul>
     </div>
   );
 };
 
-export default SideBar;
-
-
-
-
-
+export default Sidebar;

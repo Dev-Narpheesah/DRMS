@@ -4,7 +4,7 @@ import styles from "./Register.module.css";
 import axios from 'axios';
 import { toast } from "react-toastify";
 import PasswordInput from '../passwordInput/passwordInput';
-import { AuthContext } from "../../../Context/AuthContext";
+import { UserContext } from "../../../context/userContext";
 
 const initialState = {
   username: '',
@@ -14,7 +14,7 @@ const initialState = {
 };
 
 const Register = () => {
-  const { setUser} = useContext(AuthContext);
+  const { setUser} = useContext(UserContext);
   const [formData, setFormData] = useState(initialState);
   const [formCompleted, setFormCompleted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);

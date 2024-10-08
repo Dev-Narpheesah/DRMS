@@ -1,195 +1,125 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/UserModel");
+const cloudinary = require("cloudinary").v2;
+const streamifier = require("streamifier");
+const multer = require("multer");
 
-const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: "30d",
-  });
-};
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
-// Register User
-const registerUser = asyncHandler(async (req, res) => {
-  try {
-    const {
-      email,
-      password,
-      username,
-      stakeholderName,
-      stakeholderPhone,
-      stakeholderPosition,
-      gender,
-      phone,
-      disasterType,
-      location,
-      report,
-    } = req.body;
+const uploadImageToCloudinary = (fileBuffer) => {
+    return new Promise((resolve, reject) => {
+      const stream = cloudinary.uploader.upload_stream((error, result) => {
+        if (result) {
 
-    // Check for required fields
-    if (!email || !password || !username || !stakeholderName || !stakeholderPhone || !stakeholderPosition || !gender || !phone || !disasterType || !location || !report) {
-      res.status(400);
-      throw new Error("Please fill in all the required fields.");
-    }
-
-    // Check if user already exists
-    const userExist = await User.findOne({ email });
-    if (userExist) {
-      return res.status(400).json({ msg: "User already exists" });
-    }
-
-    // Automatically assign roles based on conditions
-    let role = 'user';  // Default role
-
-    // Condition: If email is from specific domain, assign 'admin' role
-    if (email.endsWith('@admin.com')) {
-      role = 'admin';
-    }
-
-    // Condition: If username matches specific criteria, assign 'manager' role
-    if (username === 'special_user') {
-      role = 'manager';
-    }
-
-    // Create new user with the assigned role
-    const user = await User.create({
-      email,
-      password,
-      username,
-      stakeholderName,
-      stakeholderPhone,
-      stakeholderPosition,
-      gender,
-      role,  // Automatically assigned role
-      phone,
-      disasterType,
-      location,
-      report,
+          resolve({ url: result.secure_url, public_id: result.public_id });
+        } else {
+          reject(error);
+        }
+      });
+      streamifier.createReadStream(fileBuffer).pipe(stream);
     });
-
-    res.status(201).json(user);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
-  }
-});
-
-
-const loginUser = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
-
-  // Validate email and password fields
-  if (!email || !password) {
-    res.status(400);
-    throw new Error("Please provide an email and password.");
-  }
-
-  // Check if user exists
-  const user = await User.findOne({ email });
-
-  if (user && (await bcrypt.compare(password, user.password))) {
-    // Passwords match, generate token
-    const token = generateToken(user._id);
-
-    // Send back user data and token
-    res.status(200).json({
-      _id: user._id,
-      username: user.username,
-      email: user.email,
-      role: user.role,
-      token,
-    });
-  } else {
-    res.status(401);
-    throw new Error("Invalid email or password.");
-  }
-});
-
-
-// Get All Users
-const getAllUsers = asyncHandler(async (req, res) => {
-  try {
-    const users = await User.find().sort("-createdAt");
-    res.status(200).json(users);
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).json({ msg: "Internal server error" });
-  }
-});
-
-// Get User by ID
-const getUser = asyncHandler(async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
-    if (!user) {
-      res.status(404).json({ msg: "User not found" });
-    } else {
-      res.status(200).json(user);
+  };
+  const registerUser = asyncHandler(async (req, res) => {
+    const { email, phone, disasterType, location, report } = req.body;
+  
+    if (!email || !phone || !disasterType || !location || !report || !req.file) {
+      return res.status(400).json({ message: "All fields are required" });
     }
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).json({ msg: "Internal server error" });
-  }
-});
-
-// Update User Profile
-const updateUserProfile = asyncHandler(async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
-    if (!user) {
-      return res.status(404).json({ msg: "User not found" });
-    }
-
-    if (req.user.id !== user.id && req.user.role !== 'admin' && req.user.role !== 'manager') {
-      return res.status(403).json({ message: "Not authorized to update this profile" });
-    }
-
-    // Update fields
-    user.username = req.body.username || user.username;
-    user.email = req.body.email || user.email;
-    user.password = req.body.password || user.password; // No need to hash password when updating it
-    user.gender = req.body.gender || user.gender;
-    user.role = req.body.role || user.role;
-    user.phone = req.body.phone || user.phone;
-    user.location = req.body.location || user.location;
-    user.disasterType = req.body.disasterType || user.disasterType;
-    user.report = req.body.report || user.report;
-    user.stakeholderName = req.body.stakeholderName || user.stakeholderName;
-    user.stakeholderPhone = req.body.stakeholderPhone || user.stakeholderPhone;
-    user.stakeholderPosition = req.body.stakeholderPosition || user.stakeholderPosition;
-
-    const updatedUser = await user.save();
-    res.status(200).json(updatedUser);
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).json({ msg: "Internal server error" });
-  }
-});
-
-// Delete User
-const deleteUser = asyncHandler(async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
-    if (user) {
-      if (user.email === 'admin') {
-        res.status(400).json({ message: 'Can Not Delete Admin User' });
-        return;
+  
+    let imageUrl = "";
+    if (req.file) {
+      try {
+        imageUrl = await uploadImageToCloudinary(req.file.buffer);
+      } catch (error) {
+        return res
+          .status(500)
+          .json({ message: "Image upload failed", error: error.message });
       }
-      await user.remove();
-      res.json({ message: 'User Deleted' });
-    } else {
-      res.status(404).json({ message: 'User Not Found' });
     }
+  
+    // Removed the following email uniqueness check:
+    // const existingUser = await User.findOne({ email });
+    // if (existingUser) {
+    //   return res.status(400).json({ message: "User already exists" });
+    // }
+  
+    const user = new User({
+      email,
+      phone,
+      disasterType,
+      location,
+      report,
+      image: imageUrl,
+    });
+  
+    const savedUser = await user.save();
+    res.status(201).json(savedUser);
+  });
+  
 
-    await user.remove();
-    res.status(200).json({ msg: "User deleted successfully!" });
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).json({ msg: "Internal server error" });
+const getAllUsers = asyncHandler(async (req, res) => {
+  const users = await User.find().sort("-createdAt");
+
+  if (!users || users.length === 0) {
+    return res.status(404).json({ message: "No users found" });
   }
+  res.status(200).json(users);
+});
+
+const getUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+  res.status(200).json(user);
+});
+
+const updateUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  user.email = req.body.email || user.email;
+  user.phone = req.body.phone || user.phone;
+  user.disasterType = req.body.disasterType || user.disasterType;
+  user.location = req.body.location || user.location;
+  user.report = req.body.report || user.report;
+
+  if (req.file) {
+    try {
+      user.image = await uploadImageToCloudinary(req.file.buffer);
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ message: "Image upload failed", error: error.message });
+    }
+  }
+
+  const updatedUser = await user.save();
+  res.json(updatedUser);
+});
+
+const deleteUser = asyncHandler(async (req, res) => {
+  const userId = req.params.id;
+
+  const user = await User.findById(userId);
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  await user.deleteOne();
+  res.status(200).json({ message: "User deleted successfully!" });
 });
 
 module.exports = {
   registerUser,
-  loginUser,
   getAllUsers,
   getUser,
   updateUserProfile,
