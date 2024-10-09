@@ -1,4 +1,4 @@
-import React,{ useContext }  from "react";
+import React, { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../../context/userContext";
 import HeroSection from "../Home/HeroSection";
@@ -8,13 +8,22 @@ import styles from "./Home.module.css";
 const Home = () => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
-  const handleDashboardClick = () => {
-    if (user && user.hasSubmittedReport) { // Check if the user has submitted a report
-      navigate(`/user/${user.id}`); // Navigate to their dashboard
-    } else {
-      alert("You are not authorized to access this dashboard.");
-    }
-  };
+
+  // const handleDashboardClick = () => {
+  //   if (user && user.hasSubmittedReport) {
+  //     navigate(`/user/${user.id}`);
+  //   } else {
+  //     navigate("/disForm"); // Redirect to the disaster report form if the user hasn't submitted a report
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   // Check if user has submitted a report and navigate to their dashboard if so
+  //   if (user && user.hasSubmittedReport) {
+  //     navigate(`/user/${user.id}`);
+  //   }
+  // }, [user, navigate]);
+
   return (
     <div className={styles.container}>
       <header className={styles.header}>
@@ -26,24 +35,26 @@ const Home = () => {
             <li>
               <Link to="/">Home</Link>
             </li>
-
-            <li>
-              <button className={styles.headerBtn} onClick={handleDashboardClick}>
-                Dashboard
-              </button>
-            </li>
             <li>
               <Link to="/about">About</Link>
             </li>
+            {/* <li>
+              <button className={styles.headerBtn} onClick={handleDashboardClick}>
+                Dashboard
+              </button>
+            </li> */}
             <li>
               <button className={styles.headerBtn}>
-                <Link to="/disForm" style={{color: "#141315"}}>Report Disaster</Link>
+                <Link to="/disForm" style={{ color: "#141315" }}>
+                  Report Disaster
+                </Link>
               </button>
             </li>
-
             <li>
               <button className={styles.headerBtn}>
-                <Link to="/card"  style={{color: "#141315"}}>View Disaster</Link>
+                <Link to="/card" style={{ color: "#141315" }}>
+                  View Disaster
+                </Link>
               </button>
             </li>
           </ul>

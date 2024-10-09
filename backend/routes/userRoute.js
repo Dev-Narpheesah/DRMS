@@ -5,7 +5,6 @@ const {
     getAllUsers,
     getUser,
     getUserReport,
-    checkReportStatus,
     updateUserProfile,
     deleteUser,
 } = require("../controllers/userController");
@@ -16,7 +15,6 @@ router.post("/register", upload.single('file'), registerUser);
 router.get("/", getAllUsers);  
 router.get("/:id", getUser); 
 router.get("/report/:id", getUserReport); 
-router.get("/check-report-status", checkReportStatus);
 router.patch("/:id", upload.single('file'), updateUserProfile);  
 router.delete("/:id", deleteUser); 
 

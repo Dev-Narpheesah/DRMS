@@ -12,7 +12,6 @@ import Service from "./Component/Services/Service";
 import About from "./Component/About/About";
 import Contact from "./Component/Contact/Contact";
 import SideBar from "./Component/Sidebar/SideBar";
-import UpdateProfile from "./Component/UserDashboard/UpdateProfile";
 import UserDashboard from "./Component/UserDashboard/UserDashboard";
 import AdminDashboard from "./Component/AdminDashboard/AdminDashboard";
 import UserManagement from "./Component/AdminDashboard/UserManagement";
@@ -24,6 +23,7 @@ import DisasterCard from "./Component/DisasterCard/DisasterCard";
 import DisasterForm from "./Component/DisasterForm/DisasterForm";
 import HelpForm from "./Component/Help/HelpForm";
 import DisasterReport from "./Component/DisasterCard/DisasterReport";
+import UpdateUser from "./Component/UserDashboard/UpdateUser";
 
 
 function App() {
@@ -37,8 +37,8 @@ function App() {
       <Route path="/about" element={<About />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/sidebar" element={<SideBar />} />
-      <Route path="/update" element={<UpdateProfile />} />
       <Route path="/user/:id" element={<UserDashboard />} />
+      <Route path="/update/:id" element={<UpdateUser />} />
       <Route path="/admin" element={<AdminDashboard />} />
       <Route path="/admin-log" element={<AdminLog />} />
       <Route path="/adminReg" element={<AdminReg />} />

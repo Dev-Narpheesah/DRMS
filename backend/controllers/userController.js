@@ -74,29 +74,14 @@ const getUser = asyncHandler(async (req, res) => {
   if (!user) {
     return res.status(404).json({ message: "User not found" });
   }
-
-  const response = {
-    email: user.email,
-    phone: user.phone,
-    disasterType: user.disasterType,
-    location: user.location,
-    hasSubmittedReport: user.hasSubmittedReport, // Include this in the response
-  };
-
-  res.status(200).json(response);
+  res.status(200).json(user);
 });
-
-
 
 const getUserReport = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
 
   if (!user) {
     return res.status(404).json({ message: "User not found" });
-  }
-
-  if (!user.hasSubmittedReport) {
-    return res.status(400).json({ message: "User has not submitted any report" });
   }
 
   const userReport = {
@@ -108,20 +93,6 @@ const getUserReport = asyncHandler(async (req, res) => {
 
   res.status(200).json(userReport); // Send only report-related fields
 });
-
-
-const checkReportStatus = asyncHandler(async (req, res) => {
-  const { email } = req.query; // Get the email from the query string
-
-  const user = await User.findOne({ email });
-
-  if (!user) {
-    return res.status(404).json({ message: "User not found" });
-  }
-
-  res.status(200).json({ hasSubmittedReport: user.hasSubmittedReport });
-});
-
 
 const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
@@ -167,7 +138,6 @@ module.exports = {
   getAllUsers,
   getUser,
   getUserReport,
-  checkReportStatus,
   updateUserProfile,
   deleteUser,
 };

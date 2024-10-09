@@ -1,0 +1,87 @@
+/* ReportModal.module.css */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Slightly less opaque background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure modal is above other content */
+  }
+  
+  .modalContent {
+    background: white;
+    padding: 20px;
+    border-radius: 12px; /* Rounded corners for card effect */
+    max-width: 400px; /* Limit max width to make it smaller */
+    width: 90%; /* Responsive width */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+    position: relative; /* Position relative for close button */
+    transition: all 0.3s ease; /* Smooth transition */
+  }
+  
+  .image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 10px; /* Space below the image */
+  }
+  
+  .title {
+    font-size: 20px; /* Slightly smaller title font */
+    margin: 10px 0;
+    display: flex;
+    align-items: center; /* Align items vertically */
+  }
+  
+  .infoIcon {
+    margin-right: 8px; /* Space between icon and title */
+    color: #007bff; /* Customize icon color */
+    font-size: 22px; /* Increase icon size */
+  }
+  
+  .description {
+    font-size: 14px; /* Slightly smaller description font */
+    color: #333;
+    line-height: 1.4; /* Line height for readability */
+    margin: 10px 0; /* Add margin for spacing */
+  }
+  
+  .details {
+    font-size: 14px; /* Keep details font size consistent */
+    color: #555;
+    margin: 5px 0; /* Add margin for spacing */
+  }
+  
+  .backButton {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px; /* Adjust padding for a smaller button */
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px; /* Space above button */
+    width: 100%; /* Make the button full width */
+  }
+  
+  .backButton:hover {
+    background-color: #0056b3; /* Darken on hover */
+  }
+  
+  .closeButton {
+    background: none;
+    border: none;
+    font-size: 20px; /* Smaller close button */
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+  }
+  
+  .closeButton:hover {
+    color: red; /* Change color on hover */
+  }
+  

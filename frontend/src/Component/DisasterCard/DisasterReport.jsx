@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import styles from './DisasterReport.module.css'; // Import styles
+import styles from './DisasterReport.module.css';
 
 const DisasterReport = () => {
-  const { id } = useParams(); // Get the ID from the URL
-  const navigate = useNavigate(); // Hook for navigation
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [report, setReport] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -27,7 +27,7 @@ const DisasterReport = () => {
   }, [id]);
 
   const goBack = () => {
-    navigate(-1); // Navigate back to the previous page
+    navigate(-1);
   };
 
   if (loading) return <p>Loading...</p>;
@@ -36,13 +36,15 @@ const DisasterReport = () => {
 
   return (
     <div className={styles.container}>
-      <button onClick={goBack} className={styles.backButton}>Go Back</button>
-      <h1 className={styles.title}>{report.disasterType}</h1>
-      {report.image && <img src={report.image.url} alt="Disaster" className={styles.image} />}
-      <p className={styles.description}>{report.report}</p>
-      <p className={styles.details}><strong>Location:</strong> {report.location}</p>
-      <p className={styles.details}><strong>Email:</strong> {report.email}</p>
-      <p className={styles.details}><strong>Phone:</strong> {report.phone}</p>
+      <div className={styles.content}>
+        <h1 className={styles.title}>{report.disasterType}</h1>
+        {report.image && <img src={report.image.url} alt="Disaster" className={styles.image} />}
+        <p className={styles.description}>{report.report}</p>
+        <p className={styles.details}><strong>Location:</strong> {report.location}</p>
+        <p className={styles.details}><strong>Email:</strong> {report.email}</p>
+        <p className={styles.details}><strong>Phone:</strong> {report.phone}</p>
+        <button onClick={goBack} className={styles.backButton}>Go Back</button>
+      </div>
     </div>
   );
 };

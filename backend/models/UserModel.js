@@ -14,7 +14,7 @@ const UserSchema = new mongoose.Schema(
     disasterType: {
       type: String,
       required: true,
-      enum: ["flood", "earthquake", "fire", "hurricane", "tornado", "other"],
+      enum: ["Flood", "Earthquake", "Fire", "Hurricane", "Tornado", "Other"],
     },
     location: {
       type: String,

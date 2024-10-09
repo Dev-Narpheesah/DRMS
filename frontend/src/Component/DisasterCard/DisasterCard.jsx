@@ -31,7 +31,7 @@ const DisasterCard = () => {
             {report.report.length > 10 ? `${report.report.substring(0, 10)}...` : report.report}
           </p>
           <button className={styles.cardButton}>
-            <Link to={`/disReport/${report._id}`}>Learn More</Link>
+            <Link to={`/disReport/${report._id}`}>Learn More</Link> 
           </button>
         </div>
       ))}

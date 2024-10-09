@@ -32,53 +32,27 @@ const DisasterForm = () => {
     setImagePreview(URL.createObjectURL(file));
   };
 
-  const checkReportStatus = async(email) => {
-    try {
-      const response = await axios.get("http://localhost:4000/api/user/check-report-status", {
-        params: { email },
-        withCredentials: true,
-      });
-      return response.data.hasSubmittedReport;
-    } catch (error) {
-      console.error("Error checking report status:", error);
-      return false; // Default to false if there's an error
-    }
-  };
-  
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-  
+
+    // Create a FormData object to handle file uploads
+    const formDataWithImage = new FormData();
+    formDataWithImage.append("email", formData.email);
+    formDataWithImage.append("phone", formData.phone);
+    formDataWithImage.append("disasterType", formData.disasterType);
+    formDataWithImage.append("location", formData.location);
+    formDataWithImage.append("report", formData.report);
+    formDataWithImage.append("file", file); // Append the image file under the 'file' field
+
     try {
-      // Check if the user has already submitted a report
-      const hasSubmitted = await checkReportStatus(formData.email);
-      if (hasSubmitted) {
-        toast.error("You have already submitted a report.");
-        setIsLoading(false);
-        return; // Stop form submission if the user has already submitted a report
-      }
-  
-      // Create a FormData object to handle file uploads
-      const formDataWithImage = new FormData();
-      formDataWithImage.append("email", formData.email);
-      formDataWithImage.append("phone", formData.phone);
-      formDataWithImage.append("disasterType", formData.disasterType);
-      formDataWithImage.append("location", formData.location);
-      formDataWithImage.append("report", formData.report);
-      formDataWithImage.append("file", file); // Append the image file under the 'file' field
-  
-      const response = await axios.post(
-        "http://localhost:4000/api/user/register",
-        formDataWithImage,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          withCredentials: true,
-        }
-      );
-  
+      const response = await axios.post("http://localhost:4000/api/user/register", formDataWithImage, {
+        headers: {
+          "Content-Type": "multipart/form-data", 
+        },
+        withCredentials: true,
+      });
+
       if (response.status === 201) {
         toast.success("User reported successfully!");
         setFormData(initialState);
@@ -93,7 +67,6 @@ const DisasterForm = () => {
       setIsLoading(false);
     }
   };
-  
 
   return (
     <div className={styles.wrapper}>
@@ -130,12 +103,12 @@ const DisasterForm = () => {
           className={styles.select}
         >
           <option value="">Select Disaster Type</option>
-          <option value="flood">Flood</option>
-          <option value="earthquake">Earthquake</option>
-          <option value="fire">Fire</option>
-          <option value="hurricane">Hurricane</option>
-          <option value="tornado">Tornado</option>
-          <option value="other">Other</option>
+          <option value="Flood">Flood</option>
+          <option value="Earthquake">Earthquake</option>
+          <option value="Fire">Fire</option>
+          <option value="Hurricane">Hurricane</option>
+          <option value="Tornado">Tornado</option>
+          <option value="Other">Other</option>
         </select>
 
         {/* Location */}
