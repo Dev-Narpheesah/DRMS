@@ -1,10 +1,20 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React,{ useContext }  from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { UserContext } from "../../../context/userContext";
 import HeroSection from "../Home/HeroSection";
 import Footer from "./Footer";
 import styles from "./Home.module.css";
 
 const Home = () => {
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+  const handleDashboardClick = () => {
+    if (user && user.hasSubmittedReport) { // Check if the user has submitted a report
+      navigate(`/user/${user.id}`); // Navigate to their dashboard
+    } else {
+      alert("You are not authorized to access this dashboard.");
+    }
+  };
   return (
     <div className={styles.container}>
       <header className={styles.header}>
@@ -18,7 +28,9 @@ const Home = () => {
             </li>
 
             <li>
-              <Link to="/">Resources</Link>
+              <button className={styles.headerBtn} onClick={handleDashboardClick}>
+                Dashboard
+              </button>
             </li>
             <li>
               <Link to="/about">About</Link>

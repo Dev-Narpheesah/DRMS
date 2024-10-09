@@ -11,55 +11,53 @@ cloudinary.config({
 });
 
 const uploadImageToCloudinary = (fileBuffer) => {
-    return new Promise((resolve, reject) => {
-      const stream = cloudinary.uploader.upload_stream((error, result) => {
-        if (result) {
-
-          resolve({ url: result.secure_url, public_id: result.public_id });
-        } else {
-          reject(error);
-        }
-      });
-      streamifier.createReadStream(fileBuffer).pipe(stream);
-    });
-  };
-  const registerUser = asyncHandler(async (req, res) => {
-    const { email, phone, disasterType, location, report } = req.body;
-  
-    if (!email || !phone || !disasterType || !location || !report || !req.file) {
-      return res.status(400).json({ message: "All fields are required" });
-    }
-  
-    let imageUrl = "";
-    if (req.file) {
-      try {
-        imageUrl = await uploadImageToCloudinary(req.file.buffer);
-      } catch (error) {
-        return res
-          .status(500)
-          .json({ message: "Image upload failed", error: error.message });
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream((error, result) => {
+      if (result) {
+        resolve({ url: result.secure_url, public_id: result.public_id });
+      } else {
+        reject(error);
       }
-    }
-  
-    // Removed the following email uniqueness check:
-    // const existingUser = await User.findOne({ email });
-    // if (existingUser) {
-    //   return res.status(400).json({ message: "User already exists" });
-    // }
-  
-    const user = new User({
-      email,
-      phone,
-      disasterType,
-      location,
-      report,
-      image: imageUrl,
     });
-  
-    const savedUser = await user.save();
-    res.status(201).json(savedUser);
+    streamifier.createReadStream(fileBuffer).pipe(stream);
   });
-  
+};
+
+
+const registerUser = asyncHandler(async (req, res) => {
+  const { email, phone, disasterType, location, report } = req.body;
+
+  // Check if all required fields are provided
+  if (!email || !phone || !disasterType || !location || !report || !req.file) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  let imageUrl = "";
+  if (req.file) {
+    try {
+      imageUrl = await uploadImageToCloudinary(req.file.buffer);
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ message: "Image upload failed", error: error.message });
+    }
+  }
+
+  // Create the new user
+  const user = new User({
+    email,
+    phone,
+    disasterType,
+    location,
+    report,
+    image: imageUrl,
+    hasSubmittedReport: true, // Mark as true because the user is submitting a report
+  });
+
+  const savedUser = await user.save();
+  res.status(201).json(savedUser);
+});
+
 
 const getAllUsers = asyncHandler(async (req, res) => {
   const users = await User.find().sort("-createdAt");
@@ -76,8 +74,54 @@ const getUser = asyncHandler(async (req, res) => {
   if (!user) {
     return res.status(404).json({ message: "User not found" });
   }
-  res.status(200).json(user);
+
+  const response = {
+    email: user.email,
+    phone: user.phone,
+    disasterType: user.disasterType,
+    location: user.location,
+    hasSubmittedReport: user.hasSubmittedReport, // Include this in the response
+  };
+
+  res.status(200).json(response);
 });
+
+
+
+const getUserReport = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  if (!user.hasSubmittedReport) {
+    return res.status(400).json({ message: "User has not submitted any report" });
+  }
+
+  const userReport = {
+    disasterType: user.disasterType,
+    location: user.location,
+    report: user.report,
+    image: user.image,
+  };
+
+  res.status(200).json(userReport); // Send only report-related fields
+});
+
+
+const checkReportStatus = asyncHandler(async (req, res) => {
+  const { email } = req.query; // Get the email from the query string
+
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  res.status(200).json({ hasSubmittedReport: user.hasSubmittedReport });
+});
+
 
 const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
@@ -122,6 +166,8 @@ module.exports = {
   registerUser,
   getAllUsers,
   getUser,
+  getUserReport,
+  checkReportStatus,
   updateUserProfile,
   deleteUser,
 };

@@ -32,27 +32,53 @@ const DisasterForm = () => {
     setImagePreview(URL.createObjectURL(file));
   };
 
+  const checkReportStatus = async(email) => {
+    try {
+      const response = await axios.get("http://localhost:4000/api/user/check-report-status", {
+        params: { email },
+        withCredentials: true,
+      });
+      return response.data.hasSubmittedReport;
+    } catch (error) {
+      console.error("Error checking report status:", error);
+      return false; // Default to false if there's an error
+    }
+  };
+  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-
-    // Create a FormData object to handle file uploads
-    const formDataWithImage = new FormData();
-    formDataWithImage.append("email", formData.email);
-    formDataWithImage.append("phone", formData.phone);
-    formDataWithImage.append("disasterType", formData.disasterType);
-    formDataWithImage.append("location", formData.location);
-    formDataWithImage.append("report", formData.report);
-    formDataWithImage.append("file", file); // Append the image file under the 'file' field
-
+  
     try {
-      const response = await axios.post("http://localhost:4000/api/user/register", formDataWithImage, {
-        headers: {
-          "Content-Type": "multipart/form-data", 
-        },
-        withCredentials: true,
-      });
-
+      // Check if the user has already submitted a report
+      const hasSubmitted = await checkReportStatus(formData.email);
+      if (hasSubmitted) {
+        toast.error("You have already submitted a report.");
+        setIsLoading(false);
+        return; // Stop form submission if the user has already submitted a report
+      }
+  
+      // Create a FormData object to handle file uploads
+      const formDataWithImage = new FormData();
+      formDataWithImage.append("email", formData.email);
+      formDataWithImage.append("phone", formData.phone);
+      formDataWithImage.append("disasterType", formData.disasterType);
+      formDataWithImage.append("location", formData.location);
+      formDataWithImage.append("report", formData.report);
+      formDataWithImage.append("file", file); // Append the image file under the 'file' field
+  
+      const response = await axios.post(
+        "http://localhost:4000/api/user/register",
+        formDataWithImage,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
+        }
+      );
+  
       if (response.status === 201) {
         toast.success("User reported successfully!");
         setFormData(initialState);
@@ -67,6 +93,7 @@ const DisasterForm = () => {
       setIsLoading(false);
     }
   };
+  
 
   return (
     <div className={styles.wrapper}>

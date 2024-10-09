@@ -38,7 +38,7 @@ function App() {
       <Route path="/contact" element={<Contact />} />
       <Route path="/sidebar" element={<SideBar />} />
       <Route path="/update" element={<UpdateProfile />} />
-      <Route path="/user" element={<UserDashboard />} />
+      <Route path="/user/:id" element={<UserDashboard />} />
       <Route path="/admin" element={<AdminDashboard />} />
       <Route path="/admin-log" element={<AdminLog />} />
       <Route path="/adminReg" element={<AdminReg />} />

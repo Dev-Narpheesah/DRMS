@@ -1,88 +1,113 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
+import { UserContext } from "../../../context/userContext";
+import { useNavigate } from "react-router-dom"; // Use history for redirect
 import styles from "./AdminDashboard.module.css";
-import UserManagement from "./UserManagement";
-import Reports from "./Reports";
-import AdminHead from "./AdminHead";
-import ResourceManagement from "./ResourceManagement";
+
+export const shortenText = (text = '', n) => {
+  return text.length > n ? text.substring(0, n).concat("...") : text;
+};
 
 const AdminDashboard = () => {
-  const [totalUsers, setTotalUsers] = useState(0);
+  const { user } = useContext(UserContext);
+  const [users, setUsers] = useState([]);
+  const [totalReports, setTotalReports] = useState(0);
+  const [totalRegions, setTotalRegions] = useState(0);
+
+  
+  const navigate = useNavigate(); // Use useNavigate instead of useHistory
 
   useEffect(() => {
-    const fetchTotalUsers = async () => {
+    const fetchUsers = async () => {
       try {
-        const { data } = await axios.get(
-          "http://localhost:4000/api/admin/total-users"
-        );
-        setTotalUsers(data.totalUsers);
+        const response = await axios.get("http://localhost:4000/api/user");
+        const users = response.data;
+        setUsers(users);
+
+
+        // Total reports and regions
+        setTotalReports(users.length);
+        const uniqueRegions = new Set(users.map(user => user.location));
+        setTotalRegions(uniqueRegions.size);
       } catch (error) {
-        console.error("Error fetching total users", error);
+        console.error("Error fetching users:", error);
       }
     };
-
-    fetchTotalUsers();
+    fetchUsers();
   }, []);
 
+  // Example of navigation logic
+  const goToReportDetails = (id) => {
+    navigate(`/report/${id}`); // Navigate to specific report details page
+  };
+
+  // if (!user || user.role !== 'admin') {
+  //   return <p>Not Authorized to view this dashboard.</p>;
+  // }
+
   return (
-    <div className={styles["admin-dashboard"]}>
-      <AdminHead />
-
-      {/* Sidebar */}
-      <aside className={styles["sidebar"]}>
-        <nav className={styles["sidebar__nav"]}>
-          <ul className={styles["sidebar__list"]}>
-            <li className={styles["sidebar__item"]}><a href="#users">Manage Users</a></li>
-            <li className={styles["sidebar__item"]}><a href="#resources">Manage Resources</a></li>
-            <li className={styles["sidebar__item"]}><a href="#reports">View Reports</a></li>
-          </ul>
-        </nav>
-      </aside>
-
-      {/* Main Content */}
-      <div className={styles["admin-dashboard__main-content"]}>
-        <div className={styles["admin-dashboard__welcome"]}>
-          <h2>Welcome to the Admin Dashboard</h2>
-          <p>Manage your resources and monitor key metrics effortlessly.</p>
+    <div className={styles.dashboard}>
+      <div className={styles.content}>
+        <div className={styles.topSection}>
+          <h1>Dashboard</h1>
         </div>
 
-        <div className={styles["admin-dashboard__stats"]}>
-          <div className={styles["admin-dashboard__stat-item"]}>
-            <img src="lady.jpeg" alt="Users" className={styles["admin-dashboard__stat-icon"]} />
-            <div>
-              <h3>Users</h3>
-              <p>{totalUsers}</p>
-            </div>
+        <div className={styles.statistics}>
+          <div className={styles.statCard}>
+            <h3>Total Users</h3>
+            <p>{users.length}</p>
           </div>
-          <div className={styles["admin-dashboard__stat-item"]}>
-            <img src="globe.jpeg" alt="Resources" className={styles["admin-dashboard__stat-icon"]} />
-            <div>
-              <h3>Resources</h3>
-              <p>567</p>
-            </div>
+          <div className={styles.statCard}>
+            <h3>Total Reports</h3>
+            <p>{totalReports}</p>
           </div>
-          <div className={styles["admin-dashboard__stat-item"]}>
-            <img src="natural.jpeg" alt="Reports" className={styles["admin-dashboard__stat-icon"]} />
-            <div>
-              <h3>Reports</h3>
-              <p>89</p>
-            </div>
+          <div className={styles.statCard}>
+            <h3>Total Regions</h3>
+            <p>{totalRegions}</p>
           </div>
         </div>
 
-        <div className={styles["admin-dashboard__content"]}>
-          <section id="users" className={styles["admin-dashboard__section"]}>
-            <h3>Manage Users</h3>
-            <UserManagement />
-          </section>
-          <section id="resources" className={styles["admin-dashboard__section"]}>
-            <h3>Manage Resources</h3>
-            <ResourceManagement />
-          </section>
-          <section id="reports" className={styles["admin-dashboard__section"]}>
-            <h3>View Reports</h3>
-            <Reports />
-          </section>
+        {/* Table Section */}
+        <div className={styles.tableSection}>
+          <h2>User Data</h2>
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Disaster Type</th>
+                <th>Location</th>
+                <th>Report</th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((user) => (
+                <tr key={user._id}>
+                  <td>{user.email}</td>
+                  <td>{user.phone}</td>
+                  <td>{user.disasterType}</td>
+                  <td>{user.location}</td>
+                  <td>{shortenText(user.report, 100)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <h2>Regions Data</h2>
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th>Regions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[...new Set(users.map(user => user.location))].map((region, index) => (
+                <tr key={index}>
+                  <td>{region}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

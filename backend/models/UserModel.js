@@ -34,6 +34,10 @@ const UserSchema = new mongoose.Schema(
         required: false, 
       },
     },
+    hasSubmittedReport: {
+      type: Boolean,
+      default: false, // By default, no user has submitted a report
+    },
   },
   {
     timestamps: true,
